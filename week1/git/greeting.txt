@@ -1,7 +1,11 @@
-<<<<<<< HEAD
-hey my name is David
-=======
+My name is Taiwo Ogunseye and I enjoy playing Basketball
 My name is Matthew Oberlies and I enjoy Hiking
+My name is Charles Ammons and I enjoy Reading
+My name is Dallin Lemon and I like to sleep!
+My name is Talon Durrant and I enjoy Traveling
 My name is Tim Gattie and I enjoy hijacking Matt's Repo.
+My name is Dustin Diaz and I enjoy enjoying
+My name is Sam Henley and I enjoy music
 My name is Daiki Naruke and I enjoy playing video games.
->>>>>>> 056194e17891f0de850e3a1e30ef956033649ac3
+Hello, My name is Charles Hardy and I like to fish.
+Hey my name is David and I like making music
