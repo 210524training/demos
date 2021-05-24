@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 My name is Kirk. I am trying to keep up.
-=======
 My name is Taiwo Ogunseye and I enjoy playing Basketball
 >>>>>>> d4c8a562fc53b7937905e1f9c8ecc92c72d24fda
 My name is Matthew Oberlies and I enjoy Hiking
@@ -13,7 +11,6 @@ My name is Tim Gattie and I enjoy hijacking Matt's Repo.
 My name is Daiki Naruke and I enjoy playing video games.
 My name is Daiki Naruke and I enjoy playing video games.
 Hello, My name is Charles Hardy and I like to fish.
-=======
 My name is Dustin Diaz and I enjoy enjoying
 >>>>>>> d4c8a562fc53b7937905e1f9c8ecc92c72d24fda
 My name is Sam Henley and I enjoy music
