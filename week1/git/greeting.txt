@@ -1,6 +1,4 @@
 My name is Matthew Oberlies and I enjoy Hiking
-
-
 My name is Tim Gattie and I enjoy hijacking Matt's Repo.
 My name is Daiki Naruke and I enjoy playing video games.
-My name is Hines Kao and I enjoy Learning
+My name is Hines Kao and I enjoy Learning.
