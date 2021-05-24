@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 My name is Matthew Oberlies and I enjoy Hiking
 My name is Tim Gattie and I enjoy hijacking Matt's Repo.
+<<<<<<< HEAD
 My name is Daiki Naruke and I enjoy playing video games.
 My name is Jackson Mangino and I enjoy running
 =======
@@ -10,3 +11,8 @@ My name is Tim Gattie and I enjoy hijacking Matt's Repo.
 My name is Jackson Mangino and I engjoy running
 
 >>>>>>> cbfc8f836c9cd79af7db9a13d120db27bdecd86c
+=======
+My name is Sam Henley and I enjoy music
+My name is Daiki Naruke and I enjoy playing video games.
+Hello, My name is Charles Hardy and I like to fish.
+>>>>>>> 370720fc78fbf40ae3e6afda778cd67c0a38677f
