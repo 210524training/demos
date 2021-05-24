@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 My name is Shea Harris and I enjoy dancing to EDM.
+=======
+My name is Matthew Oberlies and I enjoy Hiking
+My name is Tim Gattie and I enjoy hijacking Matt's Repo.
+My name is Daiki Naruke and I enjoy playing video games.
+>>>>>>> 056194e17891f0de850e3a1e30ef956033649ac3
