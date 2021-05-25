@@ -2,8 +2,6 @@
 // Selection features
 //          Item position
 // Storage for money (optional)
-import {Item} from './item.js'
-
 
 // const inventory = [];
 // I can use const here
@@ -61,3 +59,5 @@ class VendingMachine {
         // Rooms 5 & 6
     }
 }
+
+
