@@ -42,7 +42,7 @@ class VendingMachine {
 
     restockItem(itemName) {
         const maxStock = 10;
-        for(let item of inventory) {
+        for(const item of inventory) {
             if(item.name === itemName) {
                 item.stock = maxStock;
             }
