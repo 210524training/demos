@@ -55,9 +55,6 @@ class VendingMachine {
     restockItem(itemName) {
         // Rooms 3 & 4
     }
-    displayContents() {
-        // Rooms 5 & 6
-    }
 }
 
 
