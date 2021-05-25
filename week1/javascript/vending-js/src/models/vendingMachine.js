@@ -2,8 +2,6 @@
 // Selection features
 //          Item position
 // Storage for money (optional)
-import {Item} from './item.js'
-
 
 // const inventory = [];
 // I can use const here
@@ -39,7 +37,7 @@ class VendingMachine {
     // Empty constructor, since there is no data to initialize
 
     getByPosition(position) {
-<<<<<<< HEAD
+
         // Room 1 2
         //return inventory.filter(function(a){a.postion==postion});
 
@@ -51,23 +49,3 @@ class VendingMachine {
         return null;
        
     }
-
-    restockItem(itemName) {
-
-    }
-
-    displayContents() {
-
-=======
-        // Rooms 1 & 2
-    }
-
-    restockItem(itemName) {
-        // Rooms 3 & 4
-    }
-
-    displayContents() {
-        // Rooms 5 & 6
->>>>>>> 199f8b3314dd251499a4a232d4b5f2de92fdd38c
-    }
-}
