@@ -1,3 +1,5 @@
+import { chad } from './objects.js';
+
 // When you declare variables in JavaScript with the 'var' keyword, it will be 'hoisted' to the top of its scope
 // The variable will be 'declared' before you actually use it, however its value will be 'undefined'
 
@@ -41,4 +43,6 @@ myFunc();
 
 let f = 'my variable';
 
-// Due to these characteristics, you should ALWAYS use let or const, and NEVER use 'var'
+export const func = myFunc;
+
+console.log(chad);

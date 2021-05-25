@@ -1,4 +1,4 @@
-let myObj = {
+export let myObj = {
     key1: false,
     key2: 55,
     key3: 'Hello there!',
@@ -22,7 +22,7 @@ console.log(myObj);
 console.log(typeof myObj);
 console.log(typeof myObj.key4);
 
-function Person(name, age) {
+export function Person(name, age) {
     this.name = name;
     this.age = age;
     this.talk = function() {
@@ -65,7 +65,7 @@ class Student2 extends Person {
     }
 }
 
-let chad = new Student2("Chad", 23, "Finance");
+export let chad = new Student2("Chad", 23, "Finance");
 
 console.log(chad);
 
@@ -82,14 +82,14 @@ Person.prototype.meow = function() {
 
 chad.meow();
 
-let person2 = Person("Jeff", 72);
+// let person2 = Person("Jeff", 72);
 // If I "forget" the new keyword
 // What happens?
 
-console.log(person2);
+// console.log(person2);
 
-console.log(name);
-console.log(age);
+// console.log(name);
+// console.log(age);
 
 // This does throw an Error (Yay!)
 // let student2 = Student2("Jeff2", 722, "Business");
