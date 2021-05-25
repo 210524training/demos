@@ -17,7 +17,6 @@
 // Writing to a file
 // Reading from a file
 //              Require reassigning our inventory array
-
 export let inventory = [];
 
 // There are certain actions we might want to perform against this inventory
@@ -42,7 +41,12 @@ class VendingMachine {
     }
 
     restockItem(itemName) {
-        // Rooms 3 & 4
+        const maxStock = 10;
+        for(let item in inventory) {
+            if(item.name == itemName) {
+                item.stock = maxStock;
+            }
+        }
     }
 
     displayContents() {
