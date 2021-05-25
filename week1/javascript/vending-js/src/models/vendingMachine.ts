@@ -50,9 +50,10 @@ class VendingMachine {
 
   restockItem(itemName: string): void {
     // Rooms 3 & 4
+    const maxStock = 10;
     const snack = this.inventory.find((item) => item.name === itemName);
     if(snack) {
-      snack.stock = 10;
+      snack.stock = maxStock;
     }
   }
 
