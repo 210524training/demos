@@ -1,0 +1,13 @@
+{
+  "name": "vending-js",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A vending Machine Management Application",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "author": "IkenoXamos",
+  "license": "ISC"
+}
