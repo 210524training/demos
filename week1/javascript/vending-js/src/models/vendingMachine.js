@@ -49,22 +49,16 @@ class VendingMachine {
 
     displayContents() {
         // Rooms 5 & 6
-        // optinal let inv = { ...inventory };
 
-        for (let index = 0; index < inventory.length; index++) {
-            const element = inventory[index];
-
-            console.log("name " + element.name + " price " + element.price + " position " + element.position + " stock " + element.stock);
-
-
+        for (const item of inventory) {
+            if (item) {
+                console.log(`position: ${item.position} name: ${item.name}  price: ${item.price}  stock: ${item.stock}`);
+            }
+            else {
+                console.log("Error Item is Null");
+            }
         }
+
     }
 
 }
-
-
-
-
-
-
-
