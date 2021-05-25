@@ -38,14 +38,23 @@ class VendingMachine {
     // Empty constructor, since there is no data to initialize
 
     getByPosition(position) {
-        // Room 1
+        // Room 1 2
+        //return inventory.filter(function(a){a.postion==postion});
+
+        for (x of inventory){
+            if (x.position===postion){
+                return x;
+            }
+        }
+        return null;
+       
     }
 
     restockItem(itemName) {
-        // Room 2
+
     }
 
     displayContents() {
-        // Room 3
+
     }
 }
