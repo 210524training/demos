@@ -9,5 +9,8 @@
     "start": "node src/index.js"
   },
   "author": "IkenoXamos",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.27.0"
+  }
 }
