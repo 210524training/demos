@@ -38,14 +38,14 @@ class VendingMachine {
     // Empty constructor, since there is no data to initialize
 
     getByPosition(position) {
-        // Room 1
+        // Rooms 1 & 2
     }
 
     restockItem(itemName) {
-        // Room 2
+        // Rooms 3 & 4
     }
 
     displayContents() {
-        // Room 3
+        // Rooms 5 & 6
     }
 }
