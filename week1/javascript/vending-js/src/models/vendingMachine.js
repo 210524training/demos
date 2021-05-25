@@ -41,7 +41,7 @@ class VendingMachine {
         // Room 1 2
         //return inventory.filter(function(a){a.postion==postion});
 
-        for (x of inventory){
+        for (let x of inventory){
             if (x.position===postion){
                 return x;
             }
