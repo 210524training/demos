@@ -50,7 +50,7 @@ class VendingMachine {
     displayContents() {
         // Rooms 5 & 6
         // optinal let inv = { ...inventory };
-        console.log(...inventory);
+
         for (let index = 0; index < inventory.length; index++) {
             const element = inventory[index];
 
