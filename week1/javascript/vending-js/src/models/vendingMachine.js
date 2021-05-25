@@ -1,3 +1,4 @@
+
 // Need an inventory
 // Selection features
 //          Item position
@@ -43,9 +44,27 @@ class VendingMachine {
 
     restockItem(itemName) {
         // Rooms 3 & 4
+
     }
 
     displayContents() {
         // Rooms 5 & 6
+        // optinal let inv = { ...inventory };
+        console.log(...inventory);
+        for (let index = 0; index < inventory.length; index++) {
+            const element = inventory[index];
+
+            console.log("name " + element.name + " price " + element.price + " position " + element.position + " stock " + element.stock);
+
+
+        }
     }
+
 }
+
+
+
+
+
+
+

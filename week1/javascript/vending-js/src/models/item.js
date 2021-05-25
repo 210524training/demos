@@ -10,7 +10,7 @@ export class Item {
     stock = 0;
 
     constructor(name, price, position, stock) {
-        super();
+        // super();
         this.name = name;
         this.price = price;
         this.position = position;
