@@ -1,4 +1,3 @@
-import { Item } from './item.js';
 // Need an inventory
 // Selection features
 //          Item position
