@@ -10,4 +10,8 @@ export default class Item {
     public position: string,
     public stock: number,
   ) {}
+
+  toString() {
+    return `[${this.position}] ${this.name} | $${this.price} | ${this.stock} left`;
+  }
 }

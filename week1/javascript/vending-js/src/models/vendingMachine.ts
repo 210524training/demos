@@ -1,3 +1,4 @@
+import { Item } from './item.js';
 // Need an inventory
 // Selection features
 //          Item position
@@ -46,7 +47,7 @@ class VendingMachine {
   }
 
   displayContents(): void {
-    // Rooms 5 & 6
+    this.inventory.forEach((item) => console.log(item.toString()));
   }
 }
 
