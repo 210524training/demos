@@ -1,4 +1,5 @@
-// A "Thunk" in JavaScript is a function that returns another function
+// A "Thunk" in JavaScript is a function that take no parameters and return something
+// The use-case is to delay computing some value or delay some functionality
 
 // In our previous Closure example, the nested "inner" function would be our "Thunk"
 let closure = function() {
@@ -74,3 +75,43 @@ console.log(sort(input));
 let multiply = outer("Doesn't need to be a number -- Just needs to be a string");
 
 console.log(multiply("5"));
+
+// ==============================================================================
+
+function subtract(x, y) {
+    return x - y;
+}
+
+function thunk() {
+    return subtract(50, 21);
+    // This is not going to return a function
+    // This will return a number
+}
+
+// This allows us to delay the invocation of the subtract function
+// This would be helpful in particular if we didn't know what the inputs are supposed to be yet
+
+console.log(thunk()) // Only after invoking thunk(), will subtract be called
+// Output 29
+
+// In conjunction with the idea of closures, we can store data temporarily (cache data)
+
+function thunk2() {
+    let now = Date.now();
+    // This should be the current time in ms
+
+    let value = 0;
+
+    // Something will take 2 seconds to complete
+    // This structure is technically blocking
+    // This would be refactored to be asynchronous
+    while(Date.now() <= now + 2000) {
+        value = Date.now(); // Making up some random data
+     }
+    // Let's pretend we got some data back in response
+
+    return subtract(Date.now(), value);
+}
+
+// By invoking this new thunk, we delay the computation until after we get some data
+console.log(thunk2());
