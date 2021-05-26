@@ -4,13 +4,7 @@
 // Stock
 
 export class Item {
-    name = '';
-    price = 0;
-    position = '';
-    stock = 0;
-
-    constructor(name, price, position, stock) {
-        super();
+    constructor(public name: string, public price: number, public position: string, public stock: number) {
         this.name = name;
         this.price = price;
         this.position = position;

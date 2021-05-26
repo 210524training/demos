@@ -4,12 +4,7 @@
 // role
 
 export class User {
-    username = '';
-    password = '';
-    role = 'Customer';
-    balance = 0;
-
-    constructor(username, password, role, balance) {
+    constructor(public username: string, public password: string, public role: 'Customer' | 'Employee', public balance: number) {
         this.username = username;
         this.password = password;
         this.role = role;

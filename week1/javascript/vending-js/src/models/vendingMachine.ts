@@ -3,6 +3,8 @@
 //          Item position
 // Storage for money (optional)
 
+import { Item } from "./item";
+
 
 // const inventory = [];
 // I can use const here
@@ -18,7 +20,7 @@
 // Reading from a file
 //              Require reassigning our inventory array
 
-export let inventory = [];
+export let inventory: Item[] = [];
 
 // There are certain actions we might want to perform against this inventory
 // getItemByPosition
@@ -37,15 +39,15 @@ class VendingMachine {
     constructor() { }
     // Empty constructor, since there is no data to initialize
 
-    getByPosition(position) {
+    getByPosition(position: string): Item {
         // Rooms 1 & 2
     }
 
-    restockItem(itemName) {
+    restockItem(itemName: string): void {
         // Rooms 3 & 4
     }
 
-    displayContents() {
+    displayContents(): void {
         // Rooms 5 & 6
     }
 }
