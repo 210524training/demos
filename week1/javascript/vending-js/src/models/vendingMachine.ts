@@ -19,8 +19,6 @@ import Item from './item';
 // Reading from a file
 //              Require reassigning our inventory array
 
-export const inventory: Item[] = [];
-
 // There are certain actions we might want to perform against this inventory
 // getItemByPosition
 // restockItem
@@ -35,6 +33,10 @@ export const inventory: Item[] = [];
 // so instead of exporting the class itself, we would export an instance of the class
 
 class VendingMachine {
+  constructor(
+    public inventory: Item[] = [],
+  ) {}
+
   getByPosition(position: string): Item {
     // Rooms 1 & 2
   }
