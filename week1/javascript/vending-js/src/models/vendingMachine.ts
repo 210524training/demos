@@ -3,6 +3,7 @@
 //          Item position
 // Storage for money (optional)
 
+import Item from './item';
 
 // const inventory = [];
 // I can use const here
@@ -17,7 +18,10 @@
 // Writing to a file
 // Reading from a file
 //              Require reassigning our inventory array
+<<<<<<< HEAD:week1/javascript/vending-js/src/models/vendingMachine.js
 export let inventory = [];
+=======
+>>>>>>> main:week1/javascript/vending-js/src/models/vendingMachine.ts
 
 // There are certain actions we might want to perform against this inventory
 // getItemByPosition
@@ -33,23 +37,26 @@ export let inventory = [];
 // so instead of exporting the class itself, we would export an instance of the class
 
 class VendingMachine {
-    constructor() { }
-    // Empty constructor, since there is no data to initialize
+  constructor(
+    public inventory: Item[] = [],
+  ) {}
 
-    getByPosition(position) {
-        // Rooms 1 & 2
-    }
+  getByPosition(position: string): Item {
+    // Rooms 1 & 2
+  }
 
-    restockItem(itemName) {
-        const maxStock = 10;
-        for(const item of inventory) {
-            if(item.name === itemName) {
-                item.stock = maxStock;
-            }
-        }
-    }
+  restockItem(itemName: string): void {
+    const maxStock: number = 10
+    for(const item of this.inventory) {
+      if(item.name === itemName) {
+          item.stock = maxStock;
+      }
+  }
+  }
 
-    displayContents() {
-        // Rooms 5 & 6
-    }
+  displayContents(): void {
+    this.inventory.forEach((item) => console.log(item.toString()));
+  }
 }
+
+export default new VendingMachine();
