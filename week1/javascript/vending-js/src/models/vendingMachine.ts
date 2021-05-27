@@ -46,7 +46,7 @@ class VendingMachine {
   }
 
   displayContents(): void {
-    // Rooms 5 & 6
+    this.inventory.forEach((item) => console.log(item.toString()));
   }
 }
 
