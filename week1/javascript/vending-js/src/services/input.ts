@@ -1,6 +1,7 @@
 import readline from 'readline';
 import User from '../models/user';
 import userService from './userService';
+import inventoryService from './inventoryService'
 
 export const rl = readline.createInterface({
   input: process.stdin,
@@ -140,6 +141,8 @@ async function receiveUserSelection(): Promise<void> {
     case '1':
       break;
     // etc
+    case '2':
+      inventoryService.displayContents();
     default:
       exit();
     }
@@ -155,7 +158,7 @@ async function receiveUserSelection(): Promise<void> {
 
 export async function start() {
   await userService.load();
-
+  await inventoryService.loadInventory();
   // eslint-disable-next-line no-constant-condition
   while(true) {
     try {

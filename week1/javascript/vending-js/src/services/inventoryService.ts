@@ -4,6 +4,7 @@
 // Storage for money (optional)
 
 import Item from '../models/item';
+import fs from 'fs';
 
 // const inventory = [];
 // I can use const here
@@ -59,6 +60,29 @@ class InventoryService {
 
   displayContents(): void {
     this.inventory.forEach((item) => console.log(item.toString()));
+  }
+
+  async loadInventory(): Promise<void> {
+    return new Promise<void>(
+      (resolve, reject) => {
+        fs.readFile('inventory.json', (err, buffer) => {
+          if(err) {
+            reject();
+          }
+
+          this.inventory = JSON.parse(buffer.toString());
+          console.log(this.inventory);
+          resolve();
+        });
+      },
+    );
+
+  }
+
+  saveInventory(): void {
+    const inventoryString = JSON.stringify(this.inventory);
+    // const data = new Uint8Array(Buffer.from(usersString));
+    fs.writeFileSync('inventory.json', inventoryString);
   }
 }
 
