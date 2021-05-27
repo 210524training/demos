@@ -2,7 +2,7 @@
 // Selection features
 //          Item position
 // Storage for money (optional)
-
+import fs from 'fs';
 import Item from '../models/item';
 
 // const inventory = [];
@@ -59,6 +59,36 @@ class InventoryService {
 
   displayContents(): void {
     this.inventory.forEach((item) => console.log(item.toString()));
+  }
+
+  save(): void {
+    // We need a string that represents the contents of our 'users' array
+    const inventoryString = JSON.stringify(this.inventory);
+    // const data = new Uint8Array(Buffer.from(usersString));
+    fs.writeFileSync('inventory.json', inventoryString);
+  }
+
+  async load(): Promise<void> {
+    // const data = await fs.readFile('users.json').then(
+    //   (buffer) => buffer.toString(),
+    // );
+
+    // const buffer = await fs.readFile('users.json');
+    // const data = buffer.toString();
+    return new Promise<void>(
+      (resolve, reject) => {
+        fs.readFile('inventory.json', (err, buffer) => {
+          if(err) {
+            reject();
+          }
+
+          this.inventory = JSON.parse(buffer.toString());
+          resolve();
+        });
+      },
+    );
+
+    // The above 2 commented code blocks are different versions of the same instructions
   }
 }
 
