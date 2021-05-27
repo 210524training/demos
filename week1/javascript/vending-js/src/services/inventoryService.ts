@@ -2,7 +2,7 @@
 // Selection features
 //          Item position
 // Storage for money (optional)
-
+import fs from 'fs';
 import Item from '../models/item';
 
 // const inventory = [];
@@ -59,6 +59,18 @@ class InventoryService {
 
   displayContents(): void {
     this.inventory.forEach((item) => console.log(item.toString()));
+  }
+
+  async load(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      fs.readFile('inventory.json', (err, buffer) => {
+        if(err) {
+          reject();
+        }
+        this.inventory = JSON.parse(buffer.toString());
+        resolve();
+      });
+    });
   }
 }
 
