@@ -3,7 +3,7 @@
 //          Item position
 // Storage for money (optional)
 
-import Item from './item';
+import Item from '../models/item';
 
 // const inventory = [];
 // I can use const here
@@ -32,7 +32,7 @@ import Item from './item';
 // Note however, unlike User or Item, we will only need 1 instance of this kind of class
 // so instead of exporting the class itself, we would export an instance of the class
 
-class VendingMachine {
+class InventoryService {
   constructor(
     public inventory: Item[] = [],
   ) {}
@@ -62,4 +62,4 @@ class VendingMachine {
   }
 }
 
-export default new VendingMachine();
+export default new InventoryService();
