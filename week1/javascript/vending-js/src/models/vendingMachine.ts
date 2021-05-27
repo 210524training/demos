@@ -39,6 +39,13 @@ class VendingMachine {
 
   getByPosition(position: string): Item {
     // Rooms 1 & 2
+    const found = this.inventory.find((item) => item.position === position);
+
+    if(found) {
+      return found;
+    }
+
+    throw new Error('No item matches given position in inventory');
   }
 
   restockItem(itemName: string): void {
