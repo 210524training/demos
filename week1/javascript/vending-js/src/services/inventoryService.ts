@@ -3,6 +3,7 @@
 //          Item position
 // Storage for money (optional)
 
+import fs from 'fs';
 import Item from '../models/item';
 
 // const inventory = [];
@@ -59,6 +60,11 @@ class InventoryService {
 
   displayContents(): void {
     this.inventory.forEach((item) => console.log(item.toString()));
+  }
+
+  save(): void {
+    const inventoryString = JSON.stringify(this.inventory);
+    fs.writeFileSync('inventory.json', inventoryString);
   }
 }
 
