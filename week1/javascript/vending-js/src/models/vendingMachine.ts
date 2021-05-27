@@ -19,8 +19,6 @@ import Item from './item';
 // Reading from a file
 //              Require reassigning our inventory array
 
-export const inventory: Item[] = [];
-
 // There are certain actions we might want to perform against this inventory
 // getItemByPosition
 // restockItem
@@ -35,16 +33,32 @@ export const inventory: Item[] = [];
 // so instead of exporting the class itself, we would export an instance of the class
 
 class VendingMachine {
+  constructor(
+    public inventory: Item[] = [],
+  ) {}
+
   getByPosition(position: string): Item {
     // Rooms 1 & 2
+    const found = this.inventory.find((item) => item.position === position);
+
+    if(found) {
+      return found;
+    }
+
+    throw new Error('No item matches given position in inventory');
   }
 
   restockItem(itemName: string): void {
     // Rooms 3 & 4
+    const maxStock = 10;
+    const snack = this.inventory.find((item) => item.name === itemName);
+    if(snack) {
+      snack.stock = maxStock;
+    }
   }
 
   displayContents(): void {
-    // Rooms 5 & 6
+    this.inventory.forEach((item) => console.log(item.toString()));
   }
 }
 

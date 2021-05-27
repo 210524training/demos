@@ -28,6 +28,7 @@
         "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
         "@typescript-eslint/object-curly-spacing": ["error", "always"],
         "no-useless-constructor": "off",
+        "@typescript-eslint/no-useless-constructor": "error",
         "keyword-spacing": [
             "error",
             {
@@ -64,11 +65,17 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": "error"
     },
     "settings": {
         "import/resolver": {
-            "typescript": {}
+            "node": {
+                "extensions": [".js", ".ts"]
+            }
         }
     }
 }
