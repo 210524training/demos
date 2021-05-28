@@ -1,4 +1,5 @@
 import readline from 'readline';
+import log from '../log';
 import User from '../models/user';
 import userService from './userService';
 
@@ -7,15 +8,15 @@ export const rl = readline.createInterface({
   output: process.stdout,
 });
 
-function exit() {
+export function exit() {
   userService.save();
   rl.close();
   process.exit(0);
 }
 
-const currentUser: User | undefined = undefined;
+export const currentUser: User | undefined = undefined;
 
-function initialPrompt(): Promise<string> {
+export function initialPrompt(): Promise<string> {
   return new Promise<string>(
     (resolve, reject) => {
       rl.question(
@@ -41,19 +42,19 @@ function initialPrompt(): Promise<string> {
   );
 }
 
-function customerPrompt(): Promise<string> {
+export function customerPrompt(): Promise<string> {
   return new Promise<string>(
     (resolve) => resolve(''),
   );
 }
 
-function employeePrompt(): Promise<string> {
+export function employeePrompt(): Promise<string> {
   return new Promise<string>(
     (resolve) => resolve(''),
   );
 }
 
-function queryUsername(): Promise<string> {
+export function queryUsername(): Promise<string> {
   return new Promise<string>(
     (resolve) => {
       rl.question(
@@ -64,7 +65,7 @@ function queryUsername(): Promise<string> {
   );
 }
 
-function confirmPassword(password: string): Promise<boolean> {
+export function confirmPassword(password: string): Promise<boolean> {
   return new Promise<boolean>(
     (resolve) => {
       rl.question(
@@ -75,7 +76,7 @@ function confirmPassword(password: string): Promise<boolean> {
   );
 }
 
-async function queryPassword(): Promise<string> {
+export async function queryPassword(): Promise<string> {
   const password = await new Promise<string>(
     (resolve) => {
       rl.question(
@@ -93,7 +94,7 @@ async function queryPassword(): Promise<string> {
   throw new Error('Promise did not match');
 }
 
-function queryBalance(): Promise<number> {
+export function queryBalance(): Promise<number> {
   return new Promise<number>(
     (resolve, reject) => {
       rl.question('What is your starting balance: ',
@@ -108,7 +109,7 @@ function queryBalance(): Promise<number> {
   );
 }
 
-async function attemptRegister(): Promise<void> {
+export async function attemptRegister(): Promise<void> {
   // We must prompt the user for their username, password, and how much money they have
   const username = await queryUsername();
 
@@ -124,10 +125,15 @@ async function attemptRegister(): Promise<void> {
   // If it is, I quit back to the initial menu
   // Otherwise, I should register this user
 
+  log.debug(`username: ${username}, password: ${password}`);
+  // One consideration is to be careful about logging sensitive information
+  // In the above statement I am logging a plaintext password
+  // Which in the real world is something we definitely don't want to do
+  // For our demo, it doesn't really matter
   userService.register(new User(username, password, 'Customer', balance));
 }
 
-async function receiveUserSelection(): Promise<void> {
+export async function receiveUserSelection(): Promise<void> {
   let response: string;
   if(!currentUser) {
     response = await initialPrompt();
