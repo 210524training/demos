@@ -1,6 +1,7 @@
-import { start } from './services/input';
-
-// console.log(vendingMachine);
+import log from './log';
+import inventoryService from './services/inventory/inventoryService';
+import { receiveUserSelection } from './services/menu/menu';
+import userService from './services/user/userService';
 
 /**
  * Features:
@@ -12,14 +13,29 @@ import { start } from './services/input';
  * Accept payment for product
  * Dispense a product
  * Restock Products - Check
- * Adding new Products
+ * Adding new Products - Check
  * Dispense Change (optional)
  * Track which products have been sold (analytics) (optional)
  * Register Users - Check
  *      - Only Customers can be registered - Check
  *      - Employees must be created manually
- * Login as a User
- * Data Persistence
+ * Login as a User - Check
+ * Data Persistence - Check
  */
+
+async function start() {
+  await userService.load();
+  await inventoryService.load();
+
+  // eslint-disable-next-line no-constant-condition
+  while(true) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await receiveUserSelection();
+    } catch(error) {
+      log.debug(error);
+    }
+  }
+}
 
 start();
