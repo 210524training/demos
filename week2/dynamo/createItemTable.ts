@@ -1,22 +1,27 @@
 import AWS from 'aws-sdk';
 
-// const docClient = new AWS.DynamoDB.DocumentClient();
+// const docClient = new AWS.DynamoDB.DocumentClient( {
+//   region: 'us-east-1',
+//   endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
+//   apiVersion: 'latest'
+// });
 
 AWS.config.update( {region: 'us-east-1'} );
 
 const dynamo = new AWS.DynamoDB({ apiVersion: 'latest'} );
 
 const params: AWS.DynamoDB.CreateTableInput = {
-  TableName: 'items',
+  TableName: 'Items',
   KeySchema: [
     {
       AttributeName: 'position',
       KeyType: 'HASH'
+
     }
   ],
   AttributeDefinitions: [
     {
-        AttributeName: 'position',
+        AttributeName: '',
         AttributeType: 'S'
     },
     {

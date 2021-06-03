@@ -1,7 +1,6 @@
 {
   "name": "dynamo",
   "version": "1.0.0",
-  "description": "",
   "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts"
@@ -12,8 +11,9 @@
     "aws-sdk": "^2.920.0"
   },
   "devDependencies": {
-    "@types/node": "^15.6.2",
+    "@types/node": "^15.9.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.2"
-  }
+  },
+  "description": ""
 }
