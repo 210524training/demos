@@ -4,7 +4,7 @@
     <title>Hello HTML</title>
   </head>
   <body>
-    <div>
+    <div id="first-div">
       <p>Hello World! This is my HTML page!</p>
     </div>
     <table style="border: 2px; border-style: solid">
@@ -64,6 +64,18 @@
       <label for="radio3">3</label>
       <input type="radio" name="radio" id="radio3" value="3">
     </form>
+    <script>
+      let x = '5';
 
+      console.log(x);
+
+      let div = document.getElementById('first-div');
+
+      console.log(div);
+
+      setTimeout(() => alert('Pay attention to me!'), 150);
+
+      console.log(div);
+    </script>
   </body>
 </html>
