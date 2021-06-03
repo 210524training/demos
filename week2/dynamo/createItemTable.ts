@@ -10,23 +10,45 @@ const params: AWS.DynamoDB.CreateTableInput = {
   TableName: 'items',
   KeySchema: [
     {
-    AttributeName: 'position',
-    KeyType: 'HASH'
+      AttributeName: 'position',
+      KeyType: 'HASH'
     }
   ],
   AttributeDefinitions: [
     {
         AttributeName: 'position',
         AttributeType: 'S'
+    },
+    {
+      AttributeName: 'name',
+      AttributeType: 'S'
     }
   ],
   ProvisionedThroughput: {
-      ReadCapacityUnits: 5,
-      WriteCapacityUnits: 5
+      ReadCapacityUnits: 3,
+      WriteCapacityUnits: 3
   },
   StreamSpecification: {
       StreamEnabled: false
-  }
+  },
+  GlobalSecondaryIndexes: [
+    {
+      IndexName: 'name-index',
+      KeySchema: [
+        {
+          AttributeName: 'name',
+          KeyType: 'HASH'
+        }
+      ],
+      Projection: {
+        ProjectionType: 'ALL'
+      },
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 2,
+        WriteCapacityUnits: 2
+    },
+    }
+  ]
 };
 
 dynamo.createTable(params, (err, data) => {
@@ -35,4 +57,4 @@ dynamo.createTable(params, (err, data) => {
   } else {
     console.log("Table Created", data);
   }
-})
+});

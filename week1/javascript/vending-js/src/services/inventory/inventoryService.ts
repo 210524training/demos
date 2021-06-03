@@ -3,8 +3,10 @@
 //          Item position
 // Storage for money (optional)
 
-import fs from 'fs/promises';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import log from '../../log';
 import Item, { Position } from '../../models/item';
+import dynamo from '../connection/connectionService';
 
 // const inventory = [];
 // I can use const here
@@ -45,7 +47,7 @@ export function productString(item: Item) {
 
 class InventoryService {
   constructor(
-    public inventory: Item[] = [],
+    private docClient: DocumentClient = dynamo,
   ) {}
 
   // This addProduct method will return false if an item name was already in the inventory
@@ -53,57 +55,103 @@ class InventoryService {
   // This is helpful because our displayContents() method will print results
   // in order from A0 - F9
   // We might not need the return value, but it may come in handy later
-  addProduct(item: Item): boolean {
-    if(this.inventory.find((element) => element.name === item.name)) {
+  async putProduct(item: Item): Promise<boolean> {
+    const params: DocumentClient.PutItemInput = {
+      TableName: 'items',
+      Item: item,
+      ReturnConsumedCapacity: 'TOTAL',
+    };
+
+    try {
+      const result = await this.docClient.put(params).promise();
+
+      log.debug(result);
+      return true;
+    } catch(error) {
       return false;
     }
+  }
 
-    const index = this.inventory.findIndex((element) => item.position < element.position);
+  async getByPosition(position: Position): Promise<Item | undefined> {
+    const params: DocumentClient.GetItemInput = {
+      TableName: 'items',
+      Key: {
+        position,
+      },
+      ProjectionExpression: '#pos, #n, #s, #p',
+      ExpressionAttributeNames: {
+        '#pos': 'position',
+        '#n': 'name',
+        '#s': 'stock',
+        '#p': 'price',
+      },
+    };
 
-    // The new product should be at the front of the inventory
-    if(index === -1) {
-      this.inventory.splice(0, 0, item);
-      // Insert into the front of the array
-    } else {
-      // The new product should be inserted at the discovered index
-      this.inventory.splice(index, 0, item);
+    const data = await this.docClient.get(params).promise();
+
+    return data.Item as Item | undefined;
+  }
+
+  async getByName(name: string): Promise<Item | undefined> {
+    const params: DocumentClient.GetItemInput = {
+      TableName: 'items',
+      Key: {
+        name,
+      },
+      ProjectionExpression: '#pos, #n, #s, #p',
+      ExpressionAttributeNames: {
+        '#pos': 'position',
+        '#n': 'name',
+        '#s': 'stock',
+        '#p': 'price',
+      },
+    };
+
+    const data = await this.docClient.get(params).promise();
+
+    return data.Item as Item | undefined;
+  }
+
+  async getAll(): Promise<Item[]> {
+    const params: DocumentClient.ScanInput = {
+      TableName: 'items',
+      ProjectionExpression: '#pos, #n, #s, #p',
+      ExpressionAttributeNames: {
+        '#pos': 'position',
+        '#n': 'name',
+        '#s': 'stock',
+        '#p': 'price',
+      },
+    };
+
+    const data = await this.docClient.scan(params).promise();
+
+    if(data.Items) {
+      return data.Items as Item[];
     }
 
-    return true;
-  }
-
-  getByPosition(position: string): Item | undefined {
-    return this.inventory.find((item) => item.position === position);
-  }
-
-  getByName(name: string): Item | undefined {
-    return this.inventory.find((item) => item.name === name);
+    return [];
   }
 
   // restockItem() was refactored to use the position of an item instead
   // As that will be the primary means the user will select it
-  restockItem(position: Position): void {
+  async restockItem(position: Position): Promise<void> {
     const maxStock = 10;
-    const snack = this.inventory.find((item) => item.position === position);
-    if(snack) {
-      snack.stock = maxStock;
+    const item = await this.getByPosition(position);
+    if(item) {
+      item.stock = maxStock;
+
+      const success = await this.putProduct(item);
+
+      if(!success) {
+        throw new Error('Failed to restock item');
+      }
     }
   }
 
-  displayContents(): void {
-    this.inventory.forEach((item) => console.log(productString(item)));
-  }
-
-  async save(): Promise<void> {
-    const inventoryString = JSON.stringify(this.inventory);
-    await fs.writeFile('inventory.json', inventoryString);
-  }
-
-  async load(): Promise<void> {
-    const buffer = await fs.readFile('inventory.json');
-    const data = buffer.toString();
-
-    this.inventory = JSON.parse(data);
+  async displayContents(): Promise<void> {
+    const inventory = await this.getAll();
+    inventory.forEach((item) => console.log(productString(item)));
   }
 }
 

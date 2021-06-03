@@ -1,7 +1,5 @@
 import log from './log';
-import inventoryService from './services/inventory/inventoryService';
 import { receiveUserSelection } from './services/menu/menu';
-import userService from './services/user/userService';
 
 /**
  * Features:
@@ -24,9 +22,6 @@ import userService from './services/user/userService';
  */
 
 async function start() {
-  await userService.load();
-  await inventoryService.load();
-
   // eslint-disable-next-line no-constant-condition
   while(true) {
     try {

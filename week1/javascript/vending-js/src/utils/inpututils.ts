@@ -1,6 +1,4 @@
 import readline from 'readline';
-import inventoryService from '../services/inventory/inventoryService';
-import userService from '../services/user/userService';
 
 export const rl = readline.createInterface({
   input: process.stdin,
@@ -8,8 +6,6 @@ export const rl = readline.createInterface({
 });
 
 export async function exit() {
-  await userService.save();
-  await inventoryService.save();
   rl.close();
   process.exit(0);
 }

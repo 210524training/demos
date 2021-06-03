@@ -10,7 +10,7 @@ import userService from '../user/userService';
 
 export async function attemptAddProduct(): Promise<void> {
   const item = await queryProduct();
-  inventoryService.addProduct(item);
+  inventoryService.putProduct(item);
   console.log(`${item.name} has been added to the Vending Machine inventory.`);
 }
 
