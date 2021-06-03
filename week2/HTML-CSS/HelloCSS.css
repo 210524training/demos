@@ -1,0 +1,11 @@
+body {
+  background-color: lightblue;
+}
+
+#first-span {
+  color: rebeccapurple;
+}
+
+span~span{
+  border: 3px solid black;
+}
