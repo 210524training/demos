@@ -3,10 +3,8 @@
 //          Item position
 // Storage for money (optional)
 
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import log from '../../log';
 import Item, { Position } from '../../models/item';
-import dynamo from '../connection/connectionService';
+import inventoryRepository from '../../repositories/inventoryRepository';
 
 // const inventory = [];
 // I can use const here
@@ -47,101 +45,18 @@ export function productString(item: Item) {
 
 class InventoryService {
   constructor(
-    private docClient: DocumentClient = dynamo,
+    private repository = inventoryRepository,
   ) {}
-
-  // This addProduct method will return false if an item name was already in the inventory
-  // Otherwise it will insert a new item into the inventory in order of the position field
-  // This is helpful because our displayContents() method will print results
-  // in order from A0 - F9
-  // We might not need the return value, but it may come in handy later
-  async putProduct(item: Item): Promise<boolean> {
-    const params: DocumentClient.PutItemInput = {
-      TableName: 'items',
-      Item: item,
-      ReturnConsumedCapacity: 'TOTAL',
-    };
-
-    try {
-      const result = await this.docClient.put(params).promise();
-
-      log.debug(result);
-      return true;
-    } catch(error) {
-      return false;
-    }
-  }
-
-  async getByPosition(position: Position): Promise<Item | undefined> {
-    const params: DocumentClient.GetItemInput = {
-      TableName: 'items',
-      Key: {
-        position,
-      },
-      ProjectionExpression: '#pos, #n, #s, #p',
-      ExpressionAttributeNames: {
-        '#pos': 'position',
-        '#n': 'name',
-        '#s': 'stock',
-        '#p': 'price',
-      },
-    };
-
-    const data = await this.docClient.get(params).promise();
-
-    return data.Item as Item | undefined;
-  }
-
-  async getByName(name: string): Promise<Item | undefined> {
-    const params: DocumentClient.GetItemInput = {
-      TableName: 'items',
-      Key: {
-        name,
-      },
-      ProjectionExpression: '#pos, #n, #s, #p',
-      ExpressionAttributeNames: {
-        '#pos': 'position',
-        '#n': 'name',
-        '#s': 'stock',
-        '#p': 'price',
-      },
-    };
-
-    const data = await this.docClient.get(params).promise();
-
-    return data.Item as Item | undefined;
-  }
-
-  async getAll(): Promise<Item[]> {
-    const params: DocumentClient.ScanInput = {
-      TableName: 'items',
-      ProjectionExpression: '#pos, #n, #s, #p',
-      ExpressionAttributeNames: {
-        '#pos': 'position',
-        '#n': 'name',
-        '#s': 'stock',
-        '#p': 'price',
-      },
-    };
-
-    const data = await this.docClient.scan(params).promise();
-
-    if(data.Items) {
-      return data.Items as Item[];
-    }
-
-    return [];
-  }
 
   // restockItem() was refactored to use the position of an item instead
   // As that will be the primary means the user will select it
   async restockItem(position: Position): Promise<void> {
     const maxStock = 10;
-    const item = await this.getByPosition(position);
+    const item = await this.repository.getByPosition(position);
     if(item) {
       item.stock = maxStock;
 
-      const success = await this.putProduct(item);
+      const success = await this.repository.updateProduct(item);
 
       if(!success) {
         throw new Error('Failed to restock item');
@@ -150,7 +65,7 @@ class InventoryService {
   }
 
   async displayContents(): Promise<void> {
-    const inventory = await this.getAll();
+    const inventory = await this.repository.getAll();
     inventory.forEach((item) => console.log(productString(item)));
   }
 }
