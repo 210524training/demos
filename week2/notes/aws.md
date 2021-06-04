@@ -52,7 +52,7 @@ There are MANY different services:
         4. Spins down
     - If many events trigger at the same time, Lamba might choose to create multiple instances of your Lambda to handle them
     - Tradeoffs
-        - initial requests in a series of requests are likely to be slow as we wait for the code to become available
+        - Initial requests in a series of requests are likely to be slow as we wait for the code to become available
     - Literally just write a function and that function gets executed when we need it
     - The way lamda works is we define a `handler` function and that function will get called when a specified event occurs
     - Types of events:
@@ -142,7 +142,7 @@ There are MANY different services:
 
 Generally speaking, vertical scaling becomes more expensive the higher scale you go. This becomes inefficient. Which makes Horizontal Scaling generally more efficient money-wise.
 
-Even small comapnies must now be prepared to scale their products globally. This of course has many challenges. But since that is where the demand is, that is where the money is.
+Even small companies must now be prepared to scale their products globally. This of course has many challenges. But since that is where the demand is, that is where the money is.
 
 ## Cloud Models
 
