@@ -1,0 +1,40 @@
+import expressSession from 'express-session';
+import express, { Request, Response } from 'express';
+import 'express-async-errors';
+import path from 'path';
+import StatusCodes from 'http-status-codes';
+
+import dotenv from 'dotenv';
+
+import log from './log';
+import baseRouter from './routes';
+
+dotenv.config({});
+
+const app = express();
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
+app.use(expressSession({
+  secret: 'whatever-probably-should-be-from-env-vars',
+  cookie: {},
+}));
+
+const port = process.env.PORT || 3000;
+
+app.use('/', baseRouter);
+
+const { BAD_REQUEST } = StatusCodes;
+app.use((err: Error, req: Request, res: Response) => {
+  // TODO: Refactor later that sends back more than just a 400
+  // Because not all requests that fail are the fault of the client
+  console.log('Our custom error handler');
+  log.error(err);
+  return res.status(BAD_REQUEST).json({
+    error: err.message,
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server has started listining on port ${port}`);
+});
