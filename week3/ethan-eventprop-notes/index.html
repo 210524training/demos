@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello Propagation</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <h1>Bubbling</h1>
+        <div class="bubble">
+            DIV
+            <p class="bubble">
+                P
+                <a class="bubble">Click Me</a>
+            </p>
+        </div>
+
+        <h1>Capturing</h1>
+        <div class="capture">
+            DIV
+            <p class="capture">
+                P
+                <a class="capture">Click Me</a>
+            </p>
+        </div>
+
+        <div id="mouse" style="border: 2px solid black">
+            <h1>Mouse Events</h1>
+            </br>
+            </br>
+            </br>
+            </br>
+        </div>
+
+        <div>
+            <h1>Keyboard Fun</h1>
+            <form id="keyboard">
+                <input type="type"/>
+            </form>
+        </div>
+
+        <script src="index.js"></script>
+    </body>
+</html>
