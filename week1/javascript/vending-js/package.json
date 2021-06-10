@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A vending Machine Management Application",
   "main": "src/index.ts",
+  "cache" : "~/.npm",
   "scripts": {
     "test": "jest",
     "test:cov": "jest --coverage",

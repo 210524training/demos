@@ -2,9 +2,9 @@
 // Selection features
 //          Item position
 // Storage for money (optional)
-
 import Item, { Position } from '../../models/item';
 import inventoryRepository from '../../repositories/inventoryRepository';
+import dynamo from '../connection/connectionService';
 
 // const inventory = [];
 // I can use const here
@@ -39,6 +39,8 @@ import inventoryRepository from '../../repositories/inventoryRepository';
 // Which means even though it has all of the fields
 // It doesn't count as an instance of the Item class
 // And therefore cannot call the toString() method
+export var AWS = require('aws-sdk');
+export var docClient = new AWS.DynamoDB.DocumentClient();
 export function productString(item: Item) {
   return `[${item.position}] ${item.name} | $${item.price.toFixed(2)} | ${item.stock} left`;
 }
@@ -47,6 +49,34 @@ class InventoryService {
   constructor(
     private repository = inventoryRepository,
   ) {}
+
+  async putProduct(item: Item): Promise<boolean> {
+    const params: DocumentClient.PutItemInput = {
+      TableName: 'item',
+      Item: item,
+      ReturnConsumedCapacity: 'TOTAL',
+
+    };
+    try {
+      const result = await docClient.put(params).promise();
+      return true;
+
+    }
+    catch (err) {
+      return false;
+    }
+  }
+
+  async addProduct(item:Item): Promise<boolean> {
+    const params: DocumentClient.PutItemInput = {
+      TableName: items,
+      ReturnConsumedCapacity:'TOTAL';
+      ConditionExpression: 'position <> :position',
+      ':position'
+
+    }
+  }
+
 
   // restockItem() was refactored to use the position of an item instead
   // As that will be the primary means the user will select it

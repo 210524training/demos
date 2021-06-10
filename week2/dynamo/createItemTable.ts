@@ -7,10 +7,10 @@ AWS.config.update( {region: 'us-east-1'} );
 const dynamo = new AWS.DynamoDB({ apiVersion: 'latest'} );
 
 const params: AWS.DynamoDB.CreateTableInput = {
-  TableName: 'items',
+  TableName: 'car',
   KeySchema: [
     {
-      AttributeName: 'position',
+      AttributeName: 'vid',
       KeyType: 'HASH'
     }
   ],

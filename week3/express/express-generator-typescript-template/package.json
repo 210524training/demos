@@ -60,6 +60,7 @@
     "build.ts"
   ],
   "dependencies": {
+    "aws-sdk": "^2.925.0",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
@@ -69,6 +70,7 @@
     "http-status-codes": "^2.1.4",
     "jet-logger": "^1.0.6",
     "jsonfile": "^6.1.0",
+    "log4s": "^1.0.2",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0"
   },

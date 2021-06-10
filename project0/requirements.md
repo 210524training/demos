@@ -28,11 +28,11 @@ Due Date: 6/4/21
 ## User Stories
 Total: 25 Story Points
 
-- As a user, I can login
+<!-- - As a user, I can login -->
     - 2 points
-- As an employee, I can add a car to the lot
+<!-- - As an employee, I can add a car to the lot -->
     - 3 points
-- As a customer, I can view the cars on the lot
+<!-- - As a customer, I can view the cars on the lot -->
     - 1 point
 - As a customer, I can make an offer for a car
     - 3 points
@@ -42,9 +42,9 @@ Total: 25 Story Points
     - 2 points
 - As the system, I reject all other pending offers for a car when an offer is accepted
     - 3 points
-- As a user, I can register for a customer account
+<!-- - As a user, I can register for a customer account -->
     - 3 points
-- As an employee, I can remove a car from the lot
+<!-- - As an employee, I can remove a car from the lot -->
     - 2 points
 - As a customer, I can view the cars that I own
     - 1 point
