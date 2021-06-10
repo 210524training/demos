@@ -4,6 +4,13 @@ import restaurantRouter from './restaurant.router';
 
 const baseRouter = Router();
 
+/* GET home page */
+// baseRouter.get('/', (req, res) => {
+//   res.sendFile('index.html', {
+//     root: 'views/',
+//   });
+// });
+
 baseRouter.get('/json', async (req, res) => {
   console.log('Our callback was invoked!');
   // res.json({ data: 'This is sending back JSON' });
@@ -12,7 +19,12 @@ baseRouter.get('/json', async (req, res) => {
 });
 
 baseRouter.post('/login', async (req, res) => {
-  // TODO: Implement Login Functionality
+  const data = req.body;
+
+  console.log(data.username);
+  console.log(data.password);
+
+  res.json({ data });
 });
 
 baseRouter.post('/logout', async (req, res) => {
