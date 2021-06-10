@@ -51,5 +51,7 @@ async function sendLogin() {
 
   console.log(data);
 
+  sessionStorage.setItem('user', JSON.stringify(data));
+
   window.location.href = 'http://localhost:3000/views/index.html';
 }

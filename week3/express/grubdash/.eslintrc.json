@@ -16,7 +16,16 @@
     "plugins": [
         "@typescript-eslint"
     ],
-    "ignorePatterns": ["**/*.json", "**/log/*", "**/node_modules/*", "**/coverage/*", "**/build/*"],
+    "ignorePatterns": [
+        "**/*.json",
+        "**/log/*",
+        "**/node_modules/*",
+        "**/coverage/*",
+        "**/build/*",
+        "**/*.d.ts",
+        "**/*.html",
+        "**/*.css"
+    ],
     "rules": {
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["error"],

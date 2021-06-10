@@ -1,6 +1,7 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 import userRouter from './user.router';
 import restaurantRouter from './restaurant.router';
+import User from '../models/user';
 
 const baseRouter = Router();
 
@@ -18,20 +19,32 @@ baseRouter.get('/json', async (req, res) => {
   throw new Error('Something went wrong!');
 });
 
-baseRouter.post('/login', async (req, res) => {
-  const data = req.body;
+baseRouter.post('/login', async (req: express.Request<unknown, unknown, { username: string, password: string }, unknown, {}>, res) => {
+  const { username, password } = req.body;
 
-  console.log(data.username);
-  console.log(data.password);
+  req.session.isLoggedIn = true;
 
-  res.json({ data });
+  req.session.user = new User(username, password, '', '', 'Customer');
+
+  res.json(req.session.user);
 });
 
-baseRouter.post('/logout', async (req, res) => {
-  // TODO: Implement Logout Functionality
-});
+export async function logout(req: express.Request, res: express.Response): Promise<void> {
+  if(req.session.user) {
+    const { username } = req.session.user;
 
-baseRouter.use('api/v1/users', userRouter);
-baseRouter.use('api/v1/restaurants', restaurantRouter);
+    req.session.destroy(() => {
+      console.log(`${username} logged out`);
+    });
+  }
+  // If they aren't logged in, we don't need to do anything
+
+  res.status(202).send();
+}
+
+baseRouter.post('/logout', logout);
+
+baseRouter.use('/api/v1/users', userRouter);
+baseRouter.use('/api/v1/restaurants', restaurantRouter);
 
 export default baseRouter;

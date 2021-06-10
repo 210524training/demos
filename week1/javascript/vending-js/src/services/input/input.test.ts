@@ -72,12 +72,14 @@ describe('Within Input Module', () => {
     });
 
     test('should reject if the product stock is not an integer', async () => {
-      jest.spyOn(prompt, 'queryProductName').mockResolvedValueOnce(name);
+      const queryProductNameSpy = jest.spyOn(prompt, 'queryProductName').mockResolvedValueOnce(name);
       jest.spyOn(prompt, 'queryProductPrice').mockResolvedValueOnce(price);
       jest.spyOn(prompt, 'queryProductPosition').mockResolvedValueOnce(position);
       jest.spyOn(prompt, 'queryProductStock').mockRejectedValueOnce(new Error());
 
       await expect(input.queryProduct()).rejects.toBeInstanceOf(Error);
+
+      expect(queryProductNameSpy).toBeCalledTimes(1);
     });
   });
 });
