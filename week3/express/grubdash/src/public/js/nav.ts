@@ -6,14 +6,14 @@ const navbar = `<nav class="navbar navbar-nav navbar-expand-md navbar-dark bg-da
   </div>
 </nav>`;
 
-const navbarContent = `<a class="navbar-brand" href="index.html">GrubDash</a>
+const navbarContent = `<a class="navbar-brand" href="/">GrubDash</a>
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
 </button>
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
     <li class="nav-item">
-      <a class="nav-link" href="login.html">Login</a>
+      <a class="nav-link" href="login">Login</a>
     </li>
   </ul>
 </div>`;
@@ -53,5 +53,5 @@ async function sendLogin() {
 
   sessionStorage.setItem('user', JSON.stringify(data));
 
-  window.location.href = 'http://localhost:3000/views/index.html';
+  window.location.href = 'http://localhost:3000';
 }

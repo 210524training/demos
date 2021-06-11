@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import path from 'path';
 import userRouter from './user.router';
 import restaurantRouter from './restaurant.router';
 import User from '../models/user';
@@ -6,11 +7,14 @@ import User from '../models/user';
 const baseRouter = Router();
 
 /* GET home page */
-// baseRouter.get('/', (req, res) => {
-//   res.sendFile('index.html', {
-//     root: 'views/',
-//   });
-// });
+baseRouter.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/views/index.html'));
+});
+
+/* GET login page */
+baseRouter.get('/login', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/views/login.html'));
+});
 
 baseRouter.get('/json', async (req, res) => {
   console.log('Our callback was invoked!');
