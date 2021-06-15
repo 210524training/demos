@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.input {
+  text-align: center;
+  width: 30%
+}
+
+.banner2 {
+  background-color: red;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.banner3 {
+  text-align: center;
+  width: 100%
+}
+
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+
+.divider{
+  width:5px;
+  height:auto;
+  display:inline-block;
+}

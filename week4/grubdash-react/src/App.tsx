@@ -1,6 +1,6 @@
 import React from 'react';
 // All Components must import React from 'react' at the top of their module.
-// import logo from './logo.svg';
+import logo from './grublogo.jpg';
 // import './App.css';
 // import Clicker from './clicker/ClickerClass';
 import HomePage from './home-page/HomePage';
