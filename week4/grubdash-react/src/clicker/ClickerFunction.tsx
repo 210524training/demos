@@ -169,7 +169,7 @@ const ClickerFunction: React.FC<Props> = ({ amount = 1}) => {
           Something weird is going on, causing 2 updates
       */}
     </div>
-  )
+  );
 };
 
 /*

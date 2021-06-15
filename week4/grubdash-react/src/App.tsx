@@ -2,7 +2,7 @@ import React from 'react';
 // All Components must import React from 'react' at the top of their module.
 import logo from './logo.svg';
 import './App.css';
-import Clicker from './clicker/ClickerFunction';
+import Clicker from './clicker/ClickerContainer';
 
 // There are 2 different kinds of Components: Class & Function
 // This Component here is a Function Component
