@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import ContainerWrapper from '../container-wrapper/ContainerWrapper';
 
 type Props = {
   counter: number;
@@ -27,4 +28,5 @@ const ClickerPresentation: React.FC<Props> = ({counter, increment, decrement, ge
   );
 }
 
-export default ClickerPresentation;
+export default ContainerWrapper(ClickerPresentation);
+// export default ClickerPresentation;

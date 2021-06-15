@@ -143,8 +143,12 @@ const ClickerFunction: React.FC<Props> = ({ amount = 1}) => {
   // The functionality of useEffect is NOT 1 to 1 with the class component lifecycle methods
   // But we can accomplish the same goals
 
+  // JSX CANNOT return more than 1 element at the top-most level
+  // To avoid having many divs throughout the UI, devs use React.Fragment
+  // Which acts as an invisible parent element
+  // Furthermor, React.Fragment has an alias of an empty tag
   return (
-    <div>
+    <>
       {/* One of the differences between event listeners in HTML vs JSX
           is that we do not invoke the function that we pass in
           Instead, we provide a callback function, and React will invoke it */}
@@ -168,7 +172,7 @@ const ClickerFunction: React.FC<Props> = ({ amount = 1}) => {
 
           Something weird is going on, causing 2 updates
       */}
-    </div>
+      </>
   );
 };
 

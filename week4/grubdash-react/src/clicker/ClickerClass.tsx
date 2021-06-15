@@ -1,4 +1,5 @@
 import React, { createRef } from 'react';
+import ContainerWrapper from '../container-wrapper/ContainerWrapper';
 
 type Props = {
   amount?: number;
@@ -56,4 +57,4 @@ class ClickerClass extends React.Component<Props, State> {
   }
 }
 
-export default ClickerClass;
+export default ContainerWrapper(ClickerClass);
