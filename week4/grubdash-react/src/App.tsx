@@ -31,8 +31,8 @@ const App: React.FC = (): JSX.Element => {
     //     <Clicker amount={10} />
     //   </header>
     // </div>
-    // <HomePage />
-    <AllRestaurantsPage />
+    <HomePage />
+    // <AllRestaurantsPage />
   );
 }
 

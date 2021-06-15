@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <div className="container">
+    <div>
       <App />
     </div>
   </React.StrictMode>,
