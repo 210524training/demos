@@ -1,0 +1,13 @@
+#homePageDiv {
+  height: 500px;
+  max-width: 100%;
+  background-Image: url(https://static01.nyt.com/images/2021/02/17/dining/17tootired-grilled-cheese/17tootired-grilled-cheese-superJumbo.jpg?quality=90&auto=webp);
+  background-size: cover;
+  display: flexbox;
+}
+/* #welcome {
+  
+   height: 50px;
+  text-align: center;
+  padding-top: 200px; 
+} */

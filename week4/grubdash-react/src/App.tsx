@@ -4,6 +4,7 @@ import React from 'react';
 // import './App.css';
 // import Clicker from './clicker/ClickerClass';
 import HomePage from './home-page/HomePage';
+import NavBar from './nav-bar/NavBar';
 import AllRestaurantsPage from './restaurants/all-restaurants-page/AllRestaurantsPage';
 
 // There are 2 different kinds of Components: Class & Function
@@ -31,8 +32,11 @@ const App: React.FC = (): JSX.Element => {
     //     <Clicker amount={10} />
     //   </header>
     // </div>
-    // <HomePage />
-    <AllRestaurantsPage />
+    <>
+    <NavBar />
+    <HomePage />
+    {/* <AllRestaurantsPage /> */}
+    </>
   );
 }
 
