@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export default class User {
   constructor(
     public username: string,
@@ -5,6 +7,7 @@ export default class User {
     public address: string,
     public phoneNumber: string,
     public role: Role,
+    public id: string = uuidv4(),
   ) {}
 }
 
