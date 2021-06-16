@@ -8,6 +8,11 @@ import dotenv from 'dotenv';
 
 import log from './log';
 import baseRouter from './routes';
+import {
+  AuthenticationError,
+  NoUserFoundError,
+  PasswordNotMatchesError,
+} from './errors';
 
 dotenv.config({});
 
@@ -23,7 +28,46 @@ app.use(expressSession({
 
 app.use('/', baseRouter);
 
-const { BAD_REQUEST } = StatusCodes;
+const { BAD_REQUEST, UNAUTHORIZED } = StatusCodes;
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if(err instanceof NoUserFoundError) {
+    log.error(err);
+    res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+
+    return;
+  }
+
+  next(err);
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if(err instanceof PasswordNotMatchesError) {
+    log.error(err);
+    res.status(BAD_REQUEST).json({
+      error: err.message,
+    });
+
+    return;
+  }
+
+  next(err);
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if(err instanceof AuthenticationError) {
+    log.error(err);
+    res.status(UNAUTHORIZED).json({
+      error: err.message,
+    });
+
+    return;
+  }
+
+  next(err);
+});
+
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   // TODO: Refactor later that sends back more than just a 400
   // Because not all requests that fail are the fault of the client

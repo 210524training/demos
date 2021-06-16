@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import path from 'path';
 import userRouter from './user.router';
 import restaurantRouter from './restaurant.router';
-import User from '../models/user';
+import userService from '../services/user.service';
 
 const baseRouter = Router();
 
@@ -16,7 +16,7 @@ baseRouter.get('/login', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public/views/login.html'));
 });
 
-baseRouter.get('/json', async (req, res) => {
+baseRouter.get('/json', async () => {
   console.log('Our callback was invoked!');
   // res.json({ data: 'This is sending back JSON' });
 
@@ -26,9 +26,11 @@ baseRouter.get('/json', async (req, res) => {
 baseRouter.post('/login', async (req: express.Request<unknown, unknown, { username: string, password: string }, unknown, {}>, res) => {
   const { username, password } = req.body;
 
+  const user = await userService.login(username, password);
+
   req.session.isLoggedIn = true;
 
-  req.session.user = new User(username, password, '', '', 'Customer');
+  req.session.user = user;
 
   res.json(req.session.user);
 });

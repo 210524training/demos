@@ -9,9 +9,9 @@ async function populateTable() {
     new User(
       'larry',
       'password',
+      'Customer',
       '1 Finite Loop',
       '5742340334',
-      'Customer',
     ),
   );
 
@@ -19,9 +19,9 @@ async function populateTable() {
     new User(
       'bobby',
       'password123',
+      'Admin',
       '221b Baker St',
       '1112223333',
-      'Admin',
     ),
   );
 }

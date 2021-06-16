@@ -2,7 +2,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import dynamo from '../dynamo/dynamo';
 import Restaurant from '../models/restaurant';
 
-class RestaurantDAO {
+export class RestaurantDAO {
   private client: DocumentClient;
 
   constructor() {
@@ -16,7 +16,12 @@ class RestaurantDAO {
       ExpressionAttributeValues: {
         ':c': 'Restaurant',
       },
-      ProjectionExpression: 'id, name, menu, location, rating, hours, img, cuisine, type',
+      ExpressionAttributeNames: {
+        '#n': 'name',
+        '#loc': 'location',
+        '#t': 'type',
+      },
+      ProjectionExpression: 'id, #n, menu, #loc, rating, hours, img, cuisine, #t',
     };
 
     const data = await this.client.query(params).promise();
@@ -25,24 +30,28 @@ class RestaurantDAO {
   }
 
   async getById(id: string): Promise<Restaurant | null> {
-    const params: DocumentClient.QueryInput = {
+    const params: DocumentClient.GetItemInput = {
       TableName: 'Grubdash',
-      KeyConditionExpression: 'category = :c AND id = :id',
-      ExpressionAttributeValues: {
-        ':c': 'Restaurant',
-        ':id': id,
+      Key: {
+        category: 'Restaurant',
+        id,
       },
-      ProjectionExpression: 'id, name, menu, location, rating, hours, img, cuisine, type',
+      ExpressionAttributeNames: {
+        '#n': 'name',
+        '#loc': 'location',
+        '#t': 'type',
+      },
+      ProjectionExpression: 'id, #n, menu, #loc, rating, hours, img, cuisine, #t',
     };
 
-    const data = await this.client.query(params).promise();
+    const data = await this.client.get(params).promise();
 
-    if(!data.Items || data.Count === 0) {
+    if(!data.Item) {
       // No Restaraunt found with this id
       return null;
     }
 
-    return data.Items[0] as Restaurant;
+    return data.Item as Restaurant;
   }
 
   async add(restaurant: Restaurant): Promise<boolean> {
@@ -51,6 +60,10 @@ class RestaurantDAO {
       Item: {
         ...restaurant,
         category: 'Restaurant',
+      },
+      ConditionExpression: 'id <> :id',
+      ExpressionAttributeValues: {
+        ':id': restaurant.id,
       },
     };
     try {
@@ -70,7 +83,7 @@ class RestaurantDAO {
         ...restaurant,
         category: 'Restaurant',
       },
-      ConditionExpression: 'id <> :id',
+      ConditionExpression: 'id = :id',
       ExpressionAttributeValues: {
         ':id': restaurant.id,
       },

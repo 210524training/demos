@@ -2,7 +2,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import dynamo from '../dynamo/dynamo';
 import User from '../models/user';
 
-class UserDAO {
+export class UserDAO {
   private client: DocumentClient;
 
   constructor() {
@@ -28,12 +28,36 @@ class UserDAO {
   }
 
   async getById(id: string): Promise<User | null> {
+    const params: DocumentClient.GetItemInput = {
+      TableName: 'Grubdash',
+      Key: {
+        category: 'User',
+        id,
+      },
+      ExpressionAttributeNames: {
+        '#r': 'role',
+      },
+      ProjectionExpression: 'id, username, password, address, phoneNumber, #r',
+    };
+
+    const data = await this.client.get(params).promise();
+
+    if(!data.Item) {
+      // No User found with this id
+      return null;
+    }
+
+    return data.Item as User;
+  }
+
+  async getByUsername(username: string): Promise<User | null> {
     const params: DocumentClient.QueryInput = {
       TableName: 'Grubdash',
-      KeyConditionExpression: 'category = :c AND id = :id',
+      IndexName: 'user-username',
+      KeyConditionExpression: 'category = :c AND username = :u',
       ExpressionAttributeValues: {
         ':c': 'User',
-        ':id': id,
+        ':u': username,
       },
       ExpressionAttributeNames: {
         '#r': 'role',
@@ -44,7 +68,7 @@ class UserDAO {
     const data = await this.client.query(params).promise();
 
     if(!data.Items || data.Count === 0) {
-      // No User found with this id
+      // No User found with this username
       return null;
     }
 
@@ -57,6 +81,10 @@ class UserDAO {
       Item: {
         ...user,
         category: 'User',
+      },
+      ConditionExpression: 'id <> :id',
+      ExpressionAttributeValues: {
+        ':id': user.id,
       },
     };
     try {
@@ -76,7 +104,7 @@ class UserDAO {
         ...user,
         category: 'User',
       },
-      ConditionExpression: 'id <> :id',
+      ConditionExpression: 'id = :id',
       ExpressionAttributeValues: {
         ':id': user.id,
       },

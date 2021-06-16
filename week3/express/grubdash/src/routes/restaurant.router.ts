@@ -1,25 +1,41 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
+import Restaurant from '../models/restaurant';
+import restaurantService from '../services/restaurant.service';
 
 const restaurantRouter = Router();
 
 restaurantRouter.get('/', async (req, res) => {
-  // TODO: Implement the GET all restaurants endpoint
+  res.json(
+    await restaurantService.getAll(),
+  );
 });
 
 restaurantRouter.get('/:id', async (req, res) => {
-  // TODO: Implement the GET restaurant by ID endpoint
+  const { id } = req.params;
+
+  res.json(
+    await restaurantService.getById(id),
+  );
 });
 
-restaurantRouter.post('/', async (req, res) => {
-  // TODO: Implement the Create restaurant endpoint
+restaurantRouter.post('/', async (req: express.Request<unknown, unknown, Restaurant, unknown, {}>, res) => {
+  res.json(
+    await restaurantService.add(req.body),
+  );
 });
 
-restaurantRouter.put('/', async (req, res) => {
-  // TODO: Implement the Update restaurant endpoint
+restaurantRouter.put('/', async (req: express.Request<unknown, unknown, Restaurant, unknown, {}>, res) => {
+  res.json(
+    await restaurantService.update(req.body),
+  );
 });
 
 restaurantRouter.delete('/:id', async (req, res) => {
-  // TODO: Implement the Delete restaurant by ID endpoint
+  const { id } = req.params;
+
+  res.json(
+    await restaurantService.delete(id),
+  );
 });
 
 export default restaurantRouter;

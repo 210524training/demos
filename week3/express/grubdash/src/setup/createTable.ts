@@ -29,6 +29,10 @@ const params: AWS.DynamoDB.CreateTableInput = {
       AttributeName: 'id',
       AttributeType: 'S',
     },
+    {
+      AttributeName: 'username',
+      AttributeType: 'S',
+    },
   ],
   TableName,
   ProvisionedThroughput: {
@@ -38,6 +42,24 @@ const params: AWS.DynamoDB.CreateTableInput = {
   StreamSpecification: {
     StreamEnabled: false,
   },
+  LocalSecondaryIndexes: [
+    {
+      IndexName: 'user-username',
+      KeySchema: [
+        {
+          AttributeName: 'category',
+          KeyType: 'HASH',
+        },
+        {
+          AttributeName: 'username',
+          KeyType: 'RANGE',
+        },
+      ],
+      Projection: {
+        ProjectionType: 'KEYS_ONLY',
+      },
+    },
+  ],
 };
 
 (async () => {
