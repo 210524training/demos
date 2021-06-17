@@ -10,12 +10,10 @@ import AppRoutes from './router/AppRoutes';
 // Note that in TypeScript, the return type is not the same as the variable type of an arrow Function
 const App: React.FC = (): JSX.Element => {
   return (
-    <>
-      <Router>
-        <Navbar />
-        <AppRoutes />
-      </Router>
-    </>
+    <Router>
+      <Navbar />
+      <AppRoutes />
+    </Router>
   );
 }
 
