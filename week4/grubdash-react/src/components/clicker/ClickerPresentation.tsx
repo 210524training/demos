@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import ContainerWrapper from '../container-wrapper/ContainerWrapper';
+import ContainerWrapper from '../../container-wrapper/ContainerWrapper';
 
 type Props = {
   counter: number;

@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import ContainerWrapper from '../container-wrapper/ContainerWrapper';
+import ContainerWrapper from '../../container-wrapper/ContainerWrapper';
 
 type Props = {
   amount?: number;

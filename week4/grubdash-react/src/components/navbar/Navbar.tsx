@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 type Props = {
-
 }
 
 const Navbar: React.FC<Props> = (props) => {
@@ -20,6 +19,9 @@ const Navbar: React.FC<Props> = (props) => {
             </li>
           </ul>
           <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/login">Login</NavLink>
+            </li>
             <li className="nav-item">
               <NavLink className="nav-link" to="/register">Register</NavLink>
             </li>

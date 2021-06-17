@@ -1,9 +1,9 @@
 import React from 'react';
-import Features from '../features/Features';
+import Features from '../../features/Features';
 import './HomePage.css';
-import scooter from '../assets/scooter.svg';
-import iphone from '../assets/iphone.svg';
-import storefront from '../assets/storefront.svg';
+import scooter from '../../../assets/scooter.svg';
+import iphone from '../../../assets/iphone.svg';
+import storefront from '../../../assets/storefront.svg';
 
 type Props = {
 }

@@ -22,11 +22,24 @@ export class UserService {
   }
 
   add(user: User): Promise<boolean> {
-    return this.dao.add(user);
+    return this.dao.add(new User(
+      user.username,
+      user.password,
+      user.role,
+      user.address,
+      user.phoneNumber,
+    ));
   }
 
   update(user: User): Promise<boolean> {
-    return this.dao.update(user);
+    return this.dao.update(new User(
+      user.username,
+      user.password,
+      user.role,
+      user.address,
+      user.phoneNumber,
+      user.id,
+    ));
   }
 
   delete(id: string): Promise<boolean> {

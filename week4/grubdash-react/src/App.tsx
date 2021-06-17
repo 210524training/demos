@@ -1,7 +1,7 @@
 import React from 'react';
 // All Components must import React from 'react' at the top of their module.
 import { BrowserRouter as Router } from 'react-router-dom';
-import Navbar from './navbar/Navbar';
+import Navbar from './components/navbar/Navbar';
 import AppRoutes from './router/AppRoutes';
 
 // There are 2 different kinds of Components: Class & Function
