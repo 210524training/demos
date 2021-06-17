@@ -32,6 +32,9 @@ const Navbar: React.FC<Props> = (props) => {
             <li className="nav-item">
               <NavLink className="nav-link" to="/restaurants">Restaurants</NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/clicker">Clicker</NavLink>
+            </li>
           </ul>
           <ul className="navbar-nav ms-auto">
             { !user ? (

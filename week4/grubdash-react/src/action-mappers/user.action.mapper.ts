@@ -10,7 +10,6 @@ export enum UserActionTypes {
   USER_LOGIN_ASYNC_PENDING = 'users/login/async/pending',
   USER_LOGIN_ASYNC_FULFILLED = 'users/login/async/fulfilled',
   USER_LOGIN_ASYNC_REJECTED = 'users/login/async/rejected',
-  USER_LOGIN_ASYNC = 'users/login/async',
 }
 
 export type UserActionLogin = {

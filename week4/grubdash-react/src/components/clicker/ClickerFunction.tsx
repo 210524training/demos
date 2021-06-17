@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useAppDispatch } from '../../hooks';
+import User from '../../models/user';
 
 // Function components have a parameter called props that we can pass in
 // The default typing is to pass in this component's nested children as a prop
@@ -11,6 +13,9 @@ type Props = {
 }
 
 const ClickerFunction: React.FC<Props> = ({ amount = 1}) => {
+  const dispatch = useAppDispatch();
+  const user = userAppSelector<User | null>((state) => state.user);
+
   // The idea for this Clicker Function is to see a display of the current clicker amount
   // And have + and - buttons that can be clicked to increment or decrement the Clicker value
 
@@ -182,3 +187,7 @@ const ClickerFunction: React.FC<Props> = ({ amount = 1}) => {
 */
 
 export default ClickerFunction;
+
+function userAppSelector<T>(arg0: (state: any) => any) {
+  throw new Error('Function not implemented.');
+}
