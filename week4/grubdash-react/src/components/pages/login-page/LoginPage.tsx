@@ -1,11 +1,15 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import User from '../../../models/user';
-import grubdashClient from '../../../remote/grubdash-backend/grubdash.client';
+import { useHistory } from 'react-router-dom';
+import { sendLogin } from '../../../action-mappers/user.action.mapper';
+import { useAppDispatch } from '../../../hooks';
 
 const LoginPage: React.FC<unknown> = (props) => {
 
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
+
+  const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -17,14 +21,10 @@ const LoginPage: React.FC<unknown> = (props) => {
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Send an Axios Request
 
-    const response = await grubdashClient.post<User>('/login', {
-      username,
-      password,
-    });
+    await dispatch(sendLogin(username, password));
 
-    console.log(response.data);
+    history.push('/');
   }
 
   return (

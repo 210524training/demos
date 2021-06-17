@@ -79,3 +79,16 @@ These reducer functions receive the current state and the currently dispatched a
 and return a new state.
 
 It is very important to spread the state as you return, because otherwise, you will lose most of the old data.
+
+## Redux Thunk
+
+Redux Thunk is a library that provides Redux Middleware (similar to Express Middleware).
+
+It allows us to create action creators that, instead of returning an object, returns a function instead.
+
+Regular Redux cannot process functions (only action objects). So when this function reaches the redux thunk middleware, it gets invoked, and it stops processing (the function does not reach core redux).
+
+Generally, this is great for asynchronous operations that can result in dispatching different action objects depending on the result of this asynchronous operation.
+
+Instead of creating action creator functions, we create thunks.
+Quite often, the returned function tends to be asynchronous (but it does not have to be).

@@ -1,10 +1,25 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
+import { logout } from '../../action-mappers/user.action.mapper';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import User from '../../models/user';
 
 type Props = {
 }
 
 const Navbar: React.FC<Props> = (props) => {
+
+  const history = useHistory();
+  const dispatch = useAppDispatch();
+  // We "Select" the User data from the state
+  const user = useAppSelector<User | null>((state) => state.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+
+    history.push('/');
+  }
+
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
       <div id="nav" className="container-fluid">
@@ -19,12 +34,21 @@ const Navbar: React.FC<Props> = (props) => {
             </li>
           </ul>
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/login">Login</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/register">Register</NavLink>
-            </li>
+            { !user ? (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/login">Login</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/register">Register</NavLink>
+                </li>
+              </>
+              ) : (
+              <li className="nav-item">
+                <input type='submit' onClick={handleLogout} value='Logout' />
+              </li>
+              )
+            }
           </ul>
         </div>
       </div>
