@@ -4,6 +4,8 @@ import User from "../models/user";
 import grubdashClient from "../remote/grubdash-backend/grubdash.client";
 import { RootState } from "../store";
 
+// THIS FILE IS NO LONGER IN USE DUE TO REDUX TOOLKIT
+
 export enum UserActionTypes {
   USER_LOGIN = 'users/login',
   USER_LOGOUT = 'users/logout',

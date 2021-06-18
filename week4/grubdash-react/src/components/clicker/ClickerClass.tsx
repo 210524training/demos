@@ -1,8 +1,8 @@
 import React, { createRef } from 'react';
 import ContainerWrapper from '../../container-wrapper/ContainerWrapper';
-import { logout } from '../../action-mappers/user.action.mapper';
 import { AppDispatch, RootState } from '../../store';
 import { connect, ConnectedProps } from 'react-redux';
+import { logout } from '../../slices/user.slice';
 
 type Props = {
   amount?: number;

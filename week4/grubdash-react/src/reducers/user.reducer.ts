@@ -2,6 +2,8 @@ import { Reducer } from 'redux';
 import { UserAction, UserActionTypes } from '../action-mappers/user.action.mapper';
 import User from '../models/user';
 
+// THIS FILE IS NO LONGER IN USE DUE TO REDUX TOOLKIT
+
 export type UserState = User | null;
 
 const userReducer: Reducer<UserState, UserAction> = (state = null, action) => {

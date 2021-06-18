@@ -4,14 +4,14 @@ import './HomePage.css';
 import scooter from '../../../assets/scooter.svg';
 import iphone from '../../../assets/iphone.svg';
 import storefront from '../../../assets/storefront.svg';
-import User from '../../../models/user';
 import { useAppSelector } from '../../../hooks';
+import { selectUser, UserState } from '../../../slices/user.slice';
 
 type Props = {
 }
 
 const HomePage: React.FC<Props> = (props) => {
-  const user = useAppSelector<User | null>((state) => state.user);
+  const user = useAppSelector<UserState>(selectUser);
 
   return (
     <>

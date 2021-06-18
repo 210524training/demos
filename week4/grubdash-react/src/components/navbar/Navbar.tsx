@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import { logout } from '../../action-mappers/user.action.mapper';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import User from '../../models/user';
+import { logout, selectUser, UserState } from '../../slices/user.slice';
 
 type Props = {
 }
@@ -12,7 +11,7 @@ const Navbar: React.FC<Props> = (props) => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   // We "Select" the User data from the state
-  const user = useAppSelector<User | null>((state) => state.user);
+  const user = useAppSelector<UserState>(selectUser);
 
   const handleLogout = () => {
     dispatch(logout());
