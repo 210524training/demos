@@ -1,5 +1,8 @@
 import React, { createRef } from 'react';
 import ContainerWrapper from '../../container-wrapper/ContainerWrapper';
+import { AppDispatch, RootState } from '../../store';
+import { connect, ConnectedProps } from 'react-redux';
+import { logout } from '../../slices/user.slice';
 
 type Props = {
   amount?: number;
@@ -9,12 +12,31 @@ type State = {
   counter: number;
 }
 
-class ClickerClass extends React.Component<Props, State> {
+const mapStateToProps = (state: RootState) => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch: AppDispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+  }
+}
+
+// connector is now our Higher Order Component
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const styles = {
+  marginTop: '60px',
+}
+
+class ClickerClass extends React.Component<Props & PropsFromRedux, State> {
   // We MUST implement the render() method at minimum
   public spanRef: React.RefObject<HTMLSpanElement> | undefined;
   // public someData: React.RefObject<number>;
 
-  constructor(props: Props) {
+  constructor(props: Props & PropsFromRedux) {
     super(props);
 
     this.state = {
@@ -26,9 +48,12 @@ class ClickerClass extends React.Component<Props, State> {
   }
 
   render(): JSX.Element {
+    console.log(this.props.user);
+    this.props.logout();
+
     console.log(this.spanRef);
     return (
-      <div>
+      <div style={styles}>
         <button onClick={() => this.setState({...this.state, counter: this.state.counter - 1})}>
           {/* It is VERY Important to remember to spread the state when you assign it with setState
               As if you don't, you will overwrite the state variable with only new data, and lose any
@@ -57,4 +82,4 @@ class ClickerClass extends React.Component<Props, State> {
   }
 }
 
-export default ContainerWrapper(ClickerClass);
+export default connector(ContainerWrapper(ClickerClass));

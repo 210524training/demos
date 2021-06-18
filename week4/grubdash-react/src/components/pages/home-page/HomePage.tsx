@@ -4,11 +4,15 @@ import './HomePage.css';
 import scooter from '../../../assets/scooter.svg';
 import iphone from '../../../assets/iphone.svg';
 import storefront from '../../../assets/storefront.svg';
+import { useAppSelector } from '../../../hooks';
+import { selectUser, UserState } from '../../../slices/user.slice';
 
 type Props = {
 }
 
 const HomePage: React.FC<Props> = (props) => {
+  const user = useAppSelector<UserState>(selectUser);
+
   return (
     <>
       <div className="banner">
@@ -20,6 +24,7 @@ const HomePage: React.FC<Props> = (props) => {
         <h2 className='whiteText'>delivered to your door</h2>
         <br/>
         <input className="input1" placeholder="Your Address"/> <input value="Search" className="input2" type='submit'/>
+        { user && <p>Greetings {user.username}</p>}
       </div>
       <div className="container-fluid">
         <div className="row">

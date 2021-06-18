@@ -4,6 +4,7 @@ import HomePage from '../components/pages/home-page/HomePage';
 import AllRestaurantsPage from '../components/pages/all-restaurants-page/AllRestaurantsPage';
 import RegisterPage from '../components/pages/register-page/RegisterPage';
 import LoginPage from '../components/pages/login-page/LoginPage';
+import Clicker from '../components/clicker/ClickerClass';
 
 const AppRoutes: React.FC<unknown> = (props) => {
 
@@ -14,6 +15,9 @@ const AppRoutes: React.FC<unknown> = (props) => {
       </Route>
       <Route exact path='/restaurants'>
         <AllRestaurantsPage />
+      </Route>
+      <Route path='/clicker'>
+        <Clicker />
       </Route>
       <Route path='/register'>
         <RegisterPage />
