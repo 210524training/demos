@@ -52,19 +52,23 @@ export default function RestaurantsScreen() {
           list.map((o) => (
             <View style={{}} key={o.name + o.id}>
               <Text>                              </Text>
-              <View style={{ flexDirection: "row" }}>
-                <View style={{flex:1}}>
-                      <Text>{o.name}</Text>
-                      <Text>{o.rating}</Text>
-                  </View>
-                  <View style={{flex:1}}>
-                    <Image
-                      style={styles.tinyLogo}
-                      source={{
-                        uri: o.img,
-                      }}
-                    /> 
-                  </View>
+              <View style={{
+                flexDirection: 'row',
+                width: '100%',
+              }}>
+                <View style={styles.r_box}>
+
+                  <Text>{o.name}</Text>
+                  <Text>{o.rating}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Image
+                    style={styles.tinyLogo}
+                    source={{
+                      uri: o.img,
+                    }}
+                  />
+                </View>
               </View>
               <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
             </View>
@@ -80,6 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   title: {
     fontSize: 20,
@@ -90,10 +95,18 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
-  tinyLogo: {
-    width: 50,
-    height: 50,
 
+  tinyLogo: {
+    width: 80,
+    height: 85,
   },
+
+  r_box: {
+    flex: 2,
+    backgroundColor: "pink",
+    padding: 5,
+    borderWidth: 2,
+  }
+
 
 });

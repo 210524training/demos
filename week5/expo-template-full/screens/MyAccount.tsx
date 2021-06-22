@@ -16,30 +16,30 @@ export default function MyAccountScreen() {
     Alert.alert(username, password);
     await dispatch(loginAsync({ username, password }));
   }
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
         Sign in
       </Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
-      <View style={{width: '100%', padding: 25, }}>
+      <View style={{ width: '100%', padding: 25, }}>
         <TextInput
-          style={{fontSize: 18, margin: 10}}
+          style={{ fontSize: 18, margin: 10 }}
           placeholder="Username"
           onChangeText={text => setUsername(text)}
           defaultValue={username}
         />
         <TextInput
-          style={{fontSize: 18, margin: 10}}
+          style={{ fontSize: 18, margin: 10 }}
           placeholder="Password"
           onChangeText={text => setPassword(text)}
           defaultValue={password}
         />
         <Button
           onPress={handleSubmit}
-          title="Sign in"
+          title="Signsssin"
           color="red"
         >
 
