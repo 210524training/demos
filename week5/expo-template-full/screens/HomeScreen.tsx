@@ -22,13 +22,6 @@ export default function TabOneScreen() {
           onChangeText={text => setText(text)}
           defaultValue={text}
         />
-
-        {/* <Button
-          color={styles.button.color}
-
-          title="Search"
-          onPress={() => { }}
-        ></Button> */}
       </View>
 
 
