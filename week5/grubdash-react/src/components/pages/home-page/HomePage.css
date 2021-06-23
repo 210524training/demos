@@ -1,0 +1,64 @@
+.whiteText {
+  color: white;
+  font-weight: 900;
+  
+}
+
+h1 {
+  font-size: xx-large;
+}
+
+.input1 {
+  height: 20px;
+  padding: 10px;
+  background-color: white;
+  width: 30%;
+  border-radius: 25px;
+  height: 40px;
+  color: black;
+  margin-right: -70px;
+}
+
+.input2 {
+  height: 30px;
+  width: 60px;
+  border-radius: 50px;
+  background-color: red;
+  color: white;
+}
+
+.banner {
+  background-color: red;
+  text-align: center;
+  width: 100%;
+  padding: 8em;
+  margin-bottom: 60px;
+}
+
+.topButton {
+  padding: 10px;
+  float: right;
+  right:20px;
+  top: 20px;
+  position: fixed;
+  color: black;
+  background-color: white;
+  border-radius: 25px;
+}
+
+.image1 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.imgbox {
+  text-align: center;
+}
+
+.footer {
+  background-color: #3e4444;
+  padding: 8em;
+  /* margin-top: 200px; */
+}
