@@ -7,14 +7,17 @@ import iphone from '../assets/images/iphone.png';
 import scooter from '../assets/images/scooter.png';
 import storefront from '../assets/images/storefront.png';
 import { ImageSourcePropType } from 'react-native';
+import { useAppSelector } from '../hooks';
+import { selectUser, UserState } from '../hooks/slices/user.slice';
 
 export default function TabOneScreen() {
   const [text, setText] = useState('');
+  const user = useAppSelector<UserState>(selectUser);
   return (
     <ScrollView contentContainerStyle={styles.container}>
 
       <View style={styles.head}>
-        <Text style={styles.title}>GrubDash</Text>
+        <Text style={styles.title}>{user ? `Hello, ${user.username}!` : 'Grubdash'}</Text>
         <Text style={styles.subtitle}>Restaurants and more, delivered to your door</Text>
         <TextInput
           style={styles.search}

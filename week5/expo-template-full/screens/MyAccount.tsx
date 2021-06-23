@@ -2,11 +2,13 @@ import * as React from 'react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Button, StyleSheet, TextInput } from 'react-native';
 import { Text, View } from '../components/Themed';
-import { useAppDispatch } from '../hooks';
-import { loginAsync } from '../hooks/slices/user.slice';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { loginAsync, selectUser, UserState } from '../hooks/slices/user.slice';
 import { Alert } from 'react-native';
 
 export default function MyAccountScreen() {
+  const user = useAppSelector<UserState>(selectUser);
+
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -19,33 +21,42 @@ export default function MyAccountScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        Sign in
-      </Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      {user ? (
+        <>
+        <Text style={styles.title}>
+          Hello, {user.username}!
+        </Text>
+        </>
+      ) : (
+        <>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
-      <View style={{ width: '100%', padding: 25, }}>
-        <TextInput
-          style={{ fontSize: 18, margin: 10 }}
-          placeholder="Username"
-          onChangeText={text => setUsername(text)}
-          defaultValue={username}
-        />
-        <TextInput
-          style={{ fontSize: 18, margin: 10 }}
-          placeholder="Password"
-          onChangeText={text => setPassword(text)}
-          defaultValue={password}
-        />
-        <Button
-          onPress={handleSubmit}
-          title="Signsssin"
-          color="red"
-        >
+        <View style={{ width: '100%', padding: 25, }}>
+          <TextInput
+            style={{ fontSize: 18, margin: 10 }}
+            placeholder="Username"
+            onChangeText={text => setUsername(text)}
+            defaultValue={username}
+          />
+          <TextInput
+            style={{ fontSize: 18, margin: 10 }}
+            placeholder="Password"
+            onChangeText={text => setPassword(text)}
+            defaultValue={password}
+          />
+          <Button
+            onPress={handleSubmit}
+            title="Sign in"
+            color="red"
+          >
 
-        </Button>
-      </View>
-    </View>
+          </Button>
+        </View>
+        </>
+      )
+}
+      
+    </View >
   );
 }
 
