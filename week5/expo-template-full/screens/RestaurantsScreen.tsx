@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Image, ScrollView, TouchableHighlight } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Restaurant from '../models/restaurant';
 import { generate as shortid } from 'shortid';
-import { create, PREDEF_RES } from 'react-native-pixel-perfect';
-
-const dims = Dimensions.get('window');
+import { useNavigation } from '@react-navigation/native';
 
 const prep = () => {
   const list = [
@@ -55,65 +53,95 @@ const prep = () => {
 
 export default function RestaurantsScreen() {
   const list = prep();
+  const nav = useNavigation();
   return (
     <ScrollView contentContainerStyle={styles.container}>
+
       <Text style={styles.title}>Restaurants</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-      
+      <View style={styles.itemContainer}>
         {
           list.map((o) => (
-            <View style={styles.item} key={shortid()}>
-              <Image
-                style={styles.tinyLogo}
-                source={{
-                  uri: o.img,
-                }}
-              />
+            <TouchableHighlight key={shortid()}
+              activeOpacity={0.6}
+              underlayColor="#DDDDDD"
+              onPress={() => {
+                // nav.setParams(o);
+                nav.navigate('Item View', {
+                  restaurant: o,
+                });
+                // alert(o.name + shortid())
+              }}
+            >
+              <View style={styles.item}>
+                <Image
+                  style={styles.tinyLogo}
+                  source={{
+                    uri: o.img,
+                  }}
+                />
 
-              <View>
-                <Text style={styles.name}>{o.name}</Text>
-                <Text style={styles.subtitle}>{o.rating} {o.cuisine} {o.type}</Text>
+                <View>
+                  <Text style={styles.name}>{o.name}</Text>
+                  <Text
+                    style={styles.subtitle}>
+                    {o.rating} <Text style={{ color: '#d4af37' }}>{'★'.repeat(o.rating)}</Text> • {o.cuisine} • {o.type}
+                  </Text>
+                  <Text
+                    style={styles.subtitle}
+                    numberOfLines={1}
+                    ellipsizeMode={"tail"}
+                  >
+                    {o.location}
+                  </Text>
+                </View>
               </View>
-
-              <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-            </View>
+            </TouchableHighlight>
           ))
         }
+      </View>
     </ScrollView>
   );
 }
 
 export const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // width: '100%',
+    backgroundColor: 'white',
+
   },
   title: {
-    fontSize: 20,
+    color: 'white',
     fontWeight: 'bold',
+    fontSize: 30,
+    backgroundColor: 'red',
+    width: '100%',
+    padding: '5%',
+    paddingTop: 50,
+    textAlign: 'center',
   },
   separator: {
-    marginVertical: 30,
+    marginVertical: 10,
     height: 1,
     width: '80%',
+    backgroundColor: 'white',
   },
 
   tinyLogo: {
-    width: 80,
-    height: 85,
+    width: 75,
+    height: 75,
+    marginRight: 10,
   },
 
-  r_box: {
-    flex: 2,
-    backgroundColor: "white",
-    padding: 5,
-    borderWidth: 2,
+  itemContainer: {
+    flexDirection: 'column',
   },
   item: {
-    width: 375,
+    flexDirection: 'row',
+    padding: 10,
+    width: '80%',
   },
   name: {
     fontSize: 20,
@@ -122,5 +150,5 @@ export const styles = StyleSheet.create({
   subtitle: {
 
   },
-
 });
+

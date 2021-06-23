@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
+    paddingTop: 50,
     textAlign: 'center',
     fontSize: 30,
     fontWeight: 'bold',

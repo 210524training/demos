@@ -27,6 +27,11 @@ export default {
               MyAccount: 'three',
             },
           },
+          ItemView: {
+            screens: {
+              ItemView: 'four',
+            },
+          },
         },
       },
       NotFound: '*',
