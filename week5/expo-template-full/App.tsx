@@ -13,7 +13,7 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
-  
+
   if (!isLoadingComplete) {
     return null;
   } else {
@@ -24,7 +24,7 @@ export default function App() {
           <StatusBar />
         </SafeAreaProvider>
       </Provider>
-      
+
     );
   }
 }

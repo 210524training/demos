@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, Image, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Restaurant from '../models/restaurant';
 import { generate as shortid } from 'shortid';
+import { create, PREDEF_RES } from 'react-native-pixel-perfect';
+
+const dims = Dimensions.get('window');
 
 const prep = () => {
   const list = [
@@ -57,6 +60,7 @@ export default function RestaurantsScreen() {
       <Text style={styles.title}>Restaurants</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
+      
         {
           list.map((o) => (
             <View style={styles.item} key={shortid()}>
@@ -82,7 +86,7 @@ export default function RestaurantsScreen() {
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
@@ -109,7 +113,7 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
   },
   item: {
-    width: 300,
+    width: 375,
   },
   name: {
     fontSize: 20,

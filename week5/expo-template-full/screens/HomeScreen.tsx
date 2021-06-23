@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image, ScrollView, TextInput, Button } from 'react-native';
+import { StyleSheet, Image, ScrollView, TextInput, Button, Dimensions } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -9,6 +9,9 @@ import storefront from '../assets/images/storefront.png';
 import { ImageSourcePropType } from 'react-native';
 import { useAppSelector } from '../hooks';
 import { selectUser, UserState } from '../hooks/slices/user.slice';
+import { create, PREDEF_RES } from 'react-native-pixel-perfect';
+
+const dims = Dimensions.get('window');
 
 export default function TabOneScreen() {
   const [text, setText] = useState('');
@@ -17,7 +20,7 @@ export default function TabOneScreen() {
     <ScrollView contentContainerStyle={styles.container}>
 
       <View style={styles.head}>
-        <Text style={styles.title}>{user ? `Hello, ${user.username}!` : 'Grubdash'}</Text>
+        <Text style={styles.title}>{user ? `Hello, ${user.username}!` : 'GrubDash'}</Text>
         <Text style={styles.subtitle}>Restaurants and more, delivered to your door</Text>
         <TextInput
           style={styles.search}

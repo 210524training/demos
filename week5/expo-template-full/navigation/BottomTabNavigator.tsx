@@ -35,6 +35,7 @@ export default function BottomTabNavigator() {
         name="Restaurants"
         component={TabTwoNavigator}
         options={{
+          
           tabBarIcon: ({ color }) => <TabBarIcon name="barcode-outline" color={color} />,
         }}
       />
@@ -61,11 +62,12 @@ const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function TabOneNavigator() {
   return (
-    <TabOneStack.Navigator>
+    <TabOneStack.Navigator
+      headerMode={'none'}
+    >
       <TabOneStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: 'GrubDash' }}
       />
     </TabOneStack.Navigator>
   );
@@ -75,11 +77,12 @@ const TabTwoStack = createStackNavigator<TabTwoParamList>();
 
 function TabTwoNavigator() {
   return (
-    <TabTwoStack.Navigator>
+    <TabTwoStack.Navigator
+      headerMode={'none'}
+    >
       <TabTwoStack.Screen
         name="RestaurantsScreen"
         component={RestaurantsScreen}
-        options={{ headerTitle: 'Restaurants' }}
       />
     </TabTwoStack.Navigator>
   );
