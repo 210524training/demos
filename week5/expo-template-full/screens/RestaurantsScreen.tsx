@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { StyleSheet, Image, TextInput } from 'react-native';
+import { StyleSheet, Image, TextInput, ScrollView } from 'react-native';
 import { Text, View } from '../components/Themed';
 import Restaurant from '../models/restaurant';
+import { generate as shortid } from 'shortid';
 
-export default function RestaurantsScreen() {
+const prep = () => {
   const list = [
     new Restaurant(
       'Street Taco Shack',
@@ -42,44 +43,44 @@ export default function RestaurantsScreen() {
       'cf4e1e0c-20ad-4e8d-87d9-5de7a6f09836',
     ),
   ];
+
+  for (let i = 0; i < 10; i++) {
+    list.push(list[0]);
+  }
+  return list;
+}
+
+export default function RestaurantsScreen() {
+  const list = prep();
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Restaurants</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
-      <View>
         {
           list.map((o) => (
-            <View style={{}} key={o.name + o.id}>
-              <Text>                              </Text>
-              <View style={{
-                flexDirection: 'row',
-                width: '100%',
-              }}>
-                <View style={styles.r_box}>
+            <View style={styles.item} key={shortid()}>
+              <Image
+                style={styles.tinyLogo}
+                source={{
+                  uri: o.img,
+                }}
+              />
 
-                  <Text>{o.name}</Text>
-                  <Text>{o.rating}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Image
-                    style={styles.tinyLogo}
-                    source={{
-                      uri: o.img,
-                    }}
-                  />
-                </View>
+              <View>
+                <Text style={styles.name}>{o.name}</Text>
+                <Text style={styles.subtitle}>{o.rating} {o.cuisine} {o.type}</Text>
               </View>
+
               <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
             </View>
           ))
         }
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -103,10 +104,19 @@ const styles = StyleSheet.create({
 
   r_box: {
     flex: 2,
-    backgroundColor: "pink",
+    backgroundColor: "white",
     padding: 5,
     borderWidth: 2,
-  }
+  },
+  item: {
+    width: 300,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  subtitle: {
 
+  },
 
 });

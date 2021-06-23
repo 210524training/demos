@@ -3,22 +3,36 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { Button, StyleSheet, TextInput } from 'react-native';
 import { Text, View } from '../components/Themed';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { loginAsync, selectUser, UserState } from '../hooks/slices/user.slice';
+import { loginAsync, logout, selectUser, UserState } from '../hooks/slices/user.slice';
 import { Alert } from 'react-native';
+import grubdashClient from '../remote/grubdash-backend/grubdash.client';
+import { useNavigation } from '@react-navigation/native';
 
 export default function MyAccountScreen() {
   const user = useAppSelector<UserState>(selectUser);
-
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
 
+  const [action, setAction] = useState<boolean>(true)
   const dispatch = useAppDispatch();
-
-  const handleSubmit = async () => {
-    Alert.alert(username, password);
+  const nav = useNavigation();
+  
+  const handleLogin = async () => {
     await dispatch(loginAsync({ username, password }));
+    nav.navigate('Home');
   }
 
+  const handleRegister = async () => {
+   const {data: registered} = await grubdashClient.post<boolean>('/api/v1/users', {
+      username, password, address, phoneNumber
+    });
+
+    if (registered) {
+      handleLogin();
+    }
+  }
   return (
     <View style={styles.container}>
       {user ? (
@@ -26,31 +40,87 @@ export default function MyAccountScreen() {
         <Text style={styles.title}>
           Hello, {user.username}!
         </Text>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <Button
+          title="Logout"
+          color="red"
+          onPress={() => {
+            dispatch(logout());
+            
+          }}
+        ></Button>
         </>
       ) : (
         <>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
         <View style={{ width: '100%', padding: 25, }}>
-          <TextInput
-            style={{ fontSize: 18, margin: 10 }}
-            placeholder="Username"
-            onChangeText={text => setUsername(text)}
-            defaultValue={username}
-          />
-          <TextInput
-            style={{ fontSize: 18, margin: 10 }}
-            placeholder="Password"
-            onChangeText={text => setPassword(text)}
-            defaultValue={password}
-          />
-          <Button
-            onPress={handleSubmit}
-            title="Sign in"
-            color="red"
+          {
+            action
+            ? (
+              <>
+                <TextInput
+                  style={{ fontSize: 18, margin: 10 }}
+                  placeholder="Username"
+                  onChangeText={text => setUsername(text)}
+                  defaultValue={username}
+                />
+                <TextInput
+                  style={{ fontSize: 18, margin: 10 }}
+                  placeholder="Password"
+                  onChangeText={text => setPassword(text)}
+                  defaultValue={password}
+                />
+                
+                <Button
+                  onPress={handleLogin}
+                  title="Sign in"
+                  color="red"
+                />
+              </>
+            )
+            : (
+              <>
+                <TextInput
+                  style={{ fontSize: 18, margin: 10 }}
+                  placeholder="Username"
+                  onChangeText={text => setUsername(text)}
+                  defaultValue={username}
+                />
+                <TextInput
+                  style={{ fontSize: 18, margin: 10 }}
+                  placeholder="Password"
+                  onChangeText={text => setPassword(text)}
+                  defaultValue={password}
+                />
+                <TextInput
+                  style={{ fontSize: 18, margin: 10 }}
+                  placeholder="Phone Number"
+                  onChangeText={text => setPhoneNumber(text)}
+                  defaultValue={address}
+                />
+                <TextInput
+                  style={{ fontSize: 18, margin: 10 }}
+                  placeholder="Address"
+                  onChangeText={text => setAddress(text)}
+                  defaultValue={address}
+                />
+                <Button
+                  onPress={handleRegister}
+                  title="Register"
+                  color="red"
+                />
+              </>
+            ) 
+          }
+          <Text
+            style={{ color: 'blue'}}
+            onPress={() => {
+              setAction(action => !action);
+            }}
           >
-
-          </Button>
+            {action ? 'Don\'t have an account?' : 'Login'}
+          </Text>
         </View>
         </>
       )

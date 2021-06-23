@@ -28,7 +28,7 @@ export default function BottomTabNavigator() {
         name="Home"
         component={TabOneNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="md-home-outline" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="home-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -39,7 +39,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="MyAccount"
+        name="My Account"
         component={MyAccountScreen}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="person-outline" color={color} />,

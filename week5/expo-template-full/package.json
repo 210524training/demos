@@ -38,9 +38,11 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.0.0",
     "react-native-web": "~0.13.12",
+    "react-navigation": "^4.4.4",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "redux-thunk": "^2.3.0",
+    "shortid": "^2.2.16",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -53,6 +55,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-thunk": "^2.1.0",
+    "@types/shortid": "0.0.29",
     "@types/uuid": "^8.3.0",
     "file-loader": "^6.2.0",
     "jest-expo": "~41.0.0",
