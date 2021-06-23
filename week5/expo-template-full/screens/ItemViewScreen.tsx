@@ -18,7 +18,7 @@ const ItemViewScreen = ({ route }) => {
             <Button 
             title="Back"
             onPress={() => {
-              nav.navigate('Restaurants');
+              nav.goBack();
             }}
             ></Button>
           </Text>
