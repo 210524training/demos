@@ -57,8 +57,12 @@ const prep = (cuisine: string): Restaurant[] => {
   return list;
 }
 
-const RestaurantsScreen: React.FC<RestaurantsScreenRouteProp> = (props) => {
-  const { cuisine } = props.params;
+type Props = {
+  route: RestaurantsScreenRouteProp,
+}
+
+const RestaurantsScreen: React.FC<Props> = ({route}) => {
+  const { cuisine } = route.params;
 
   const list = prep(cuisine[1]);
   const nav = useNavigation();

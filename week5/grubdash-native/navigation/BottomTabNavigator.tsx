@@ -61,9 +61,9 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator<HomeParamList>();
 
-export const headerStyle = {
-  backgroundColor: "powderblue",
-}
+// export const headerStyle = {
+//   backgroundColor: "powderblue",
+// }
 
 function HomeNavigator() {
   return (
@@ -71,7 +71,7 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: 'GrubDash', headerStyle: headerStyle }}
+        options={{ headerTitle: 'GrubDash' }}
       />
     </HomeStack.Navigator>
   );

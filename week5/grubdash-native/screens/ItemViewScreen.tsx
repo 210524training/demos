@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Text, View } from '../components/Themed';
-import { useAppSelector } from '../hooks';
-import { selectUser, UserState } from '../hooks/slices/user.slice';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { StyleSheet, Image, ScrollView, TextInput, Button, Dimensions } from 'react-native';
 import { RootStackParamList } from '../types';
@@ -11,10 +9,13 @@ type ItemViewScreenRouteProp = RouteProp<
   'ItemView'
 >;
 
-const ItemViewScreen: React.FC<ItemViewScreenRouteProp> = (props) => {
+type Props = {
+  route: ItemViewScreenRouteProp,
+}
+
+const ItemViewScreen: React.FC<Props> = ({route}) => {
   const nav = useNavigation();
-  const user = useAppSelector<UserState>(selectUser);
-  const r = props.params.restaurant;
+  const r = route.params.restaurant;
   return (
     <ScrollView contentContainerStyle={{}}>
       <View style={styles.navBar}>
