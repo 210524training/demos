@@ -3,10 +3,15 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
+import Restaurant from "./models/restaurant";
+import { Cuisine } from "./screens/CuisineScreen";
+
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
-  ItemView: undefined;
+  ItemView: {
+    restaurant: Restaurant;
+  };
 };
 
 export type BottomTabParamList = {
@@ -21,7 +26,9 @@ export type HomeParamList = {
 
 export type CuisineParamList = {
   CuisineScreen: undefined;
-  RestaurantsScreen: undefined;
+  RestaurantsScreen: {
+    cuisine: Cuisine;
+  };
 };
 
 export type ProfileParamList = {
