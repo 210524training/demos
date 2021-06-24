@@ -4,27 +4,42 @@
  * https://reactnavigation.org/docs/configuring-links
  */
 
+import { LinkingOptions } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 
-export default {
+const config: LinkingOptions = {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          Home: {
             screens: {
-              TabOneScreen: 'one',
+              HomeScreen: 'home',
             },
           },
-          TabTwo: {
+          Cuisine: {
             screens: {
-              TabTwoScreen: 'two',
+              CuisineScreen: 'cuisine',
+              RestaurantsScreen: 'restaurants',
             },
           },
+          Profile: {
+            screens: {
+              LoginScreen: 'login',
+              RegisterScreen: 'register'
+            },
+          },
+        },
+      },
+      ItemView: {
+        screens: {
+          ItemView: 'item',
         },
       },
       NotFound: '*',
     },
   },
 };
+
+export default config;

@@ -29,8 +29,9 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator  headerMode={'none'}>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="ItemView" component={ItemViewScreen} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
