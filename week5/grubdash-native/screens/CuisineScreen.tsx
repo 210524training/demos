@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Pressable, ImageSourcePropType } from 'react-native';
+import { StyleSheet, View, ScrollView, Pressable, ImageSourcePropType, Platform, TouchableNativeFeedback } from 'react-native';
 import GridItem from '../components/GridItem';
 
 import burger from '../assets/images/burger.png';
@@ -27,6 +27,25 @@ const CuisineScreen: React.FC<Props> = (props) => {
     [sushi, 'Asian']
   ];
 
+  const cuisineJSX = () => {
+    return cuisines.map(cuisine => (
+      <Pressable onPress={() => handlePress(cuisine)}>
+        <GridItem source={cuisine[0]} description={cuisine[1]} />
+      </Pressable>
+      ));
+  }
+
+  const androidJSX = () => {
+    return cuisines.map(cuisine => (
+      <TouchableNativeFeedback 
+        background={TouchableNativeFeedback.SelectableBackground()}
+        onPress={() => handlePress(cuisine)}>
+
+        <GridItem source={cuisine[0]} description={cuisine[1]} />
+      </TouchableNativeFeedback>
+      ));
+  }
+
   const handlePress = (cuisine: Cuisine) => {
     nav.navigate('RestaurantsScreen', {
       cuisine,
@@ -37,11 +56,8 @@ const CuisineScreen: React.FC<Props> = (props) => {
       <ScrollView style={styles.container}>
         <View>
           {
-            cuisines.map(cuisine => (
-              <Pressable onPress={() => handlePress(cuisine)}>
-                <GridItem source={cuisine[0]} description={cuisine[1]} />
-              </Pressable>
-            ))
+            Platform.OS === 'android' ? 
+            cuisineJSX() : cuisineJSX()
           }
         </View>
       </ScrollView>
