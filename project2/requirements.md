@@ -66,3 +66,30 @@ Should still satisfy the project idea you outlined at the beginning.
 We will be following a Scrum methodology.
 We will have daily standups for the rest of the batch.
 I will also ask your team leader if there are any issues after each standup along with current project progress.
+
+## Groups
+
+### Group 1
+- Albert Didde
+- Charles Hardy
+- Kyle Bartolucci
+- James Potvin
+- Honorine Icyitegetse
+
+### Group 2
+- Kirk Simmonds
+- Dallin Lemon
+- Sam Henley
+- Hines Kao
+
+### Group 3
+- Charles Ammons
+- Dustin Diaz
+- Prem Patel
+- Taiwo Ogunseye
+
+### Group 4
+- Donovan Dixon
+- Daniel Kim
+- David Quezada
+- Brian Hibbs
