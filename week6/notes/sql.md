@@ -75,6 +75,10 @@ Constraints are rules (or conditions) that must be followed to enforce database 
 ## Composite Keys
 Most of the time, the primary key will consist of a single column. Sometimes, however, multiple columns may be used together to create a primary key to uniquely identify a row. Each column that makes up this primary key, is known as a candidate key. This forms a primary key with multiple columns that is known as a composite key. In the example of a CD collection, we may have a table called `song` that has the columns `track_no`, `album_id`, `genre`, etc. Notice that `track_no` by itself would not work as a primary key, because we will have multiple albums with the same track numbers (1st song is track_no 1 for example, in each album). In this case, we would have a composite key made up of the **candidate keys**, album_id and track_no to uniquely identify a song.
 
+## Referential Integrity
+Whenever we create relationships between tables, such as by having a foreign key in one table link to the primary key in another table, we want to make sure that integrity is upheld between the two tables. What this means is we should always have a foreign key that points to a priamry key value that actually exists. So, if you try to delete a record in one table that the foreign key in another table depends on, SQL will not allow you to do so without doing some sort of "cascade" operation. This is to prevent "orphan" records from occurring.
+- Example: if you try to delete a ship that contains many pirates, you need to delete the pirates first before deleting the ship
+
 # Cardinality / Multiplicity
 Describes the numerical relationship between 2 tables. There are 3 categories:
 - 1 to 1
@@ -143,3 +147,43 @@ General Guidelines:
 - 1NF: We must have a key
 - 2NF: We must describe the whole key (composite key)
 - 3NF: We should describe nothing but the key
+
+# Transaction Properties: ACID
+
+- Atomicity: means that transactions will execute successfully or not at all. We are treating DML operations as part of a single transaction that either completely succeeds (and gets committed) or fails (and gets rolled back).
+- Consistency: constraints are enforced for every operation. We cannot commit changes if they do not follow constraints set for the database. Primary key, foreign key, data types, checks, not null, unique, referential integrity, etc. need to all be upheld.
+- Isolation: If we have multiple transactions happening at the same time, the principle of isolation is talking about how we should deal with these concurrent transactions. So if we have two transactions occurring, one transaction should ideally not be disturbing the other. We have many different isolation levels that allow different levels in which interference could occur.
+- Durability: When a transaction is complete (has been committed), it is persisted to the database within permanent memory (such as a hard drive instead of RAM). So even if our system lost power, etc. the changes would still be there upon reboot.
+
+# Read Phenomena
+[Link to Wikipedia Article](https://en.wikipedia.org/wiki/Isolation_(database_systems)#Read_phenomena)
+
+This is related to the I (isolation) in ACID properties. Read phenomena refer to the degree in which two transactions will interfere with each other when doing some sort of modifications and reads on the same data.
+- When applications becomes more complex and more traffic and modifications happen concurrently, we need to account for these issues
+- The more strict our isolation level, the more careful the system is about avoiding conflicts, but this could cause performance issues since concurrency would decrease with a more strict level
+
+| Isolation Level | Dirty Read | Non-repeatable Read | Phantom Read |
+| :-------------- | :--------- | :------------------ | :----------- |
+| Read Uncommitted | Y | Y | Y |
+| Read Committed | N | Y | Y |
+| Repeatable Read | N | N | Y |
+| Serializable | N | N | N |
+
+# Database Joins
+- Joins are operations to "join" together data that we are querying for
+- Useful when retrieving data where there is a relationship between tables
+- Several Types
+    - INNER JOIN
+        - Shows records where the condition matches both sides
+    - FULL OUTER JOIN
+        - Shows matching records and records that don't have a match, with NULL values on the opposite side for nonmatching cases
+    - LEFT/RIGHT JOIN
+        - Data from the LEFT (or RIGHT) table are paired with another table, with NULLs if no match is found for the other side
+    - CROSS JOIN
+        - Cross product of both tables
+        - List of permutations
+            - A lot of data!
+            - Table w/ 1000 records, and another table w/ 2000
+                - 2,000,000 results (1000 * 2000)
+    - SELF JOIN
+        - Not really a type of join, but describes joining a foreign key to a primary key ON the same table
