@@ -1,0 +1,29 @@
+FROM node:lts-slim AS builder
+
+WORKDIR /app
+
+COPY . .
+# In conjunction with the .dockerignore file
+# This will only copy the files that we want
+# And node_modules, build, log, etc will be ignored
+
+RUN npm ci
+
+RUN npm run build
+
+FROM node:lts-slim AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/grubdash.js grubdash.js
+COPY --from=builder /app/logconfig.json logconfig.json
+
+EXPOSE 4000
+
+# Every Image must have a CMD or ENTRYPOINT instruction
+# This instruction tells the container what process will be
+# associated with the lifetime of the container
+# They do basically the same thing
+# But ENTRYPOINT is preferred if you are associating
+# the process with a specific file
+ENTRYPOINT ["node", "/app/grubdash.js"]

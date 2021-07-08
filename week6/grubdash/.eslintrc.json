@@ -1,0 +1,93 @@
+{
+    "env": {
+        "node": true,
+        "es2021": true,
+        "jest": true,
+        "browser": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "ignorePatterns": [
+        "**/*.json",
+        "**/log/*",
+        "**/node_modules/*",
+        "**/coverage/*",
+        "**/build/*",
+        "**/*.d.ts",
+        "**/*.html",
+        "**/*.css"
+    ],
+    "rules": {
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "ts": "never"
+            }
+        ],
+        "import/prefer-default-export": "warn",
+        "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
+        "@typescript-eslint/object-curly-spacing": ["error", "always"],
+        "no-useless-constructor": "off",
+        "@typescript-eslint/no-useless-constructor": "error",
+        "keyword-spacing": [
+            "error",
+            {
+                "overrides": {
+                    "if": {
+                        "after": false
+                    },
+                    "for": {
+                        "after": false
+                    },
+                    "while": {
+                        "after": false
+                    },
+                    "catch": {
+                        "after": false
+                    }
+                }
+            }
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
+        "linebreak-style": "off",
+        "no-console": "off",
+        // To resolves issues with enums in TypeScript
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "indent": [
+            "error",
+            2
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": "error"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts"]
+            }
+        }
+    }
+}
