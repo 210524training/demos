@@ -188,6 +188,21 @@ export class RestaurantDAO {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  produceMenuUpdate(menu: Food[]): string {
+    let query = 'UPDATE public.menu (name, price, restaurant_id) VALUES ';
+
+    menu.forEach((food, index) => {
+      if(index !== 0) {
+        query += ', ';
+      }
+
+      query += `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`;
+    });
+
+    return query;
+  }  
+
+  // eslint-disable-next-line class-methods-use-this
   produceHoursInsert(hours: Hours[]): string {
     let query = 'INSERT INTO public.hours (day, open, close, restaurant_id) VALUES ';
 
@@ -198,6 +213,23 @@ export class RestaurantDAO {
 
       query += `($${index * 4 + 1}, $${index * 4 + 2}, $${index * 4 + 3}, $${index * 4 + 4})`;
     });
+
+    return query;
+  }
+
+    // eslint-disable-next-line class-methods-use-this
+  produceHoursUpdate(hours: Hours[]): string {
+    let query = 'UPDATE public.hours (day, open, close, restaurant_id) VALUES ';
+
+    hours.forEach((hour, index) => {
+      if(index !== 0) {
+        query += ', ';
+      }
+
+      query += `($${index * 4 + 1}, $${index * 4 + 2}, $${index * 4 + 3}, $${index * 4 + 4})`;
+    });
+
+    query += `WHERE restaurant_id`
 
     return query;
   }
@@ -256,16 +288,42 @@ export class RestaurantDAO {
   }
 
   async update(restaurant: Restaurant): Promise<boolean> {
+    const client = await this.pool.connect();
+     
+  ) {}
+    try {
+      // eslint-disable-next-line max-len
+      const data = [restaurant.name, restaurant.menu, restaurant.location,restaurant.img,restaurant.cuisine,restaurant.type,restaurant.id,];
+      const res = await client.query(`UPDATE public.restaurant 
+        SET 
+          restaurant.type = $1,
+          restaurant.rating = $2,
+          restaurant.img = $3,
+          restaurant.cuisine = $4,
+          restaurant.location = $5,
+          restaurant.name = $6
+        WHERE restaurant.id = $7`, data);
+      
+      const data2 = []
 
+      console.log(res);
+      return true;
+    } catch(error) {
+      log.error(error);
+      return false;
+    } finally {
+      client.release();
+    }
   }
 
   async delete(id: string): Promise<boolean> {
     const client = await this.pool.connect();
 
     try {
-      const res = await client.query('DELETE FROM public.restaurants WHERE id = $1', [id]);
-      
-      console.log(res);
+      const res = await client.query('DELETE FROM public.menus WHERE restaurant_id = $1', [id]);
+      const res2 = await client.query('DELETE FROM public.hours WHERE restaurant_id = $1', [id]);
+      const res3 = await client.query('DELETE FROM public.restaurants WHERE id = $1', [id]);
+      console.log(`${res}, ${res2}, ${res3}`);
       return true;
     } catch(error) {
       log.error(error);
