@@ -260,7 +260,19 @@ export class RestaurantDAO {
   }
 
   async delete(id: string): Promise<boolean> {
+    const client = await this.pool.connect();
 
+    try {
+      const res = await client.query('DELETE FROM public.restaurants WHERE id = $1', [id]);
+      
+      console.log(res);
+      return true;
+    } catch(error) {
+      log.error(error);
+      return false;
+    } finally {
+      client.release();
+    }
   }
 }
 
