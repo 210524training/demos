@@ -74,11 +74,13 @@ export class RestaurantDAO {
           const newFood: Food = {
             name: dbrestaurant.food_name,
             price: dbrestaurant.price,
+            id: dbrestaurant.id,
           };
 
           const menu: Food[] = [newFood];
 
           const newHour: Hours = {
+            id: dbrestaurant.id,
             day: dbrestaurant.day,
             open: dbrestaurant.open,
             close: dbrestaurant.close,
@@ -123,6 +125,7 @@ export class RestaurantDAO {
           const newFood = {
             name: dbrestaurant.food_name,
             price: dbrestaurant.price,
+            id: dbrestaurant.id,
           };
 
           rest.menu.push(newFood);
@@ -132,6 +135,7 @@ export class RestaurantDAO {
             day: dbrestaurant.day,
             open: dbrestaurant.open,
             close: dbrestaurant.close,
+            id: dbrestaurant.id,
           };
 
           rest.hours.push(newHour);
@@ -144,6 +148,7 @@ export class RestaurantDAO {
     return restaurants;
   }
 
+  // TODO: fix bug - getAll returning too many menus
   async getAll(): Promise<Restaurant[]> {
     const client = await this.pool.connect();
 
@@ -256,11 +261,94 @@ export class RestaurantDAO {
   }
 
   async update(restaurant: Restaurant): Promise<boolean> {
+    const client = await this.pool.connect();
 
+    try {
+      await client.query('BEGIN');
+
+      const res = await client.query(
+        'UPDATE public.restaurants SET type=$1, rating=$2, cuisine=$3, img=$4, location=$5, name=$6 WHERE id=$7',
+        // eslint-disable-next-line max-len
+        [restaurant.type, restaurant.rating, restaurant.cuisine, restaurant.img, restaurant.location, restaurant.name, restaurant.id],
+      );
+
+      log.debug('Updated restaurant', JSON.stringify(res));
+
+      const deleteHours = await client.query(
+        'DELETE FROM public.hours WHERE restaurant_id = $1',
+        [restaurant.id],
+      );
+      log.debug('Deleted hours: ', JSON.stringify(deleteHours));
+
+      const deleteMenus = await client.query(
+        'DELETE FROM public.menu WHERE restaurant_id = $1',
+        [restaurant.id],
+      );
+      log.debug('Deleted menus: ', JSON.stringify(deleteMenus));
+
+      const data2 = restaurant.menu.reduce((acc: (string | number)[], food) => {
+        acc.push(food.name);
+        acc.push(food.price);
+        // TODO: refactor code base to make restaurant id NOT undefined
+        acc.push(restaurant.id as string);
+        return acc;
+      }, []);
+
+      const res2 = await client.query(this.produceMenuInsert(restaurant.menu), data2);
+      log.debug('Inserted menus: ', JSON.stringify(res2));
+
+      const data3 = restaurant.hours.reduce((acc: (string | number)[], hour) => {
+        acc.push(hour.day);
+        acc.push(hour.open);
+        acc.push(hour.close);
+        // TODO: refactor code base to make restaurant id NOT undefined
+        acc.push(restaurant.id as string);
+        return acc;
+      }, []);
+
+      const res3 = await client.query(this.produceHoursInsert(restaurant.hours), data3);
+      log.debug('Inserted hours: ', JSON.stringify(res3));
+
+      await client.query('COMMIT');
+      return true;
+    } catch(error) {
+      log.error(error);
+      await client.query('ROLLBACK');
+      return false;
+    } finally {
+      client.release();
+    }
   }
 
   async delete(id: string): Promise<boolean> {
+    const client = await this.pool.connect();
 
+    try {
+      const deleteHours = await client.query(
+        'DELETE FROM public.hours WHERE restaurant_id = $1',
+        [id],
+      );
+      log.debug('Deleted hours: ', JSON.stringify(deleteHours));
+
+      const deleteMenus = await client.query(
+        'DELETE FROM public.menu WHERE restaurant_id = $1',
+        [id],
+      );
+      log.debug('Deleted menus: ', JSON.stringify(deleteMenus));
+
+      const res = await client.query(
+        'DELETE FROM public.restaurants WHERE id = $1',
+        [id],
+      );
+
+      log.debug('Deleted restaurant: ', JSON.stringify(res));
+      return res.rowCount > 0;
+    } catch(error) {
+      log.error(error);
+      return false;
+    } finally {
+      client.release();
+    }
   }
 }
 
