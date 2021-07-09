@@ -226,3 +226,5 @@ CREATE INDEX test1_id_index ON test1 (id); -- This helps us to optimize finding 
 SELECT *
 FROM test1
 WHERE id = 100000;
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;

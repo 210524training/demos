@@ -1,30 +1,29 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import dynamo from '../dynamo/dynamo';
+import { Pool } from 'pg';
+import connectionString from '../database-config';
 import User from '../models/user';
 
 export class UserDAO {
-  private client: DocumentClient;
+  private pool: Pool;
 
   constructor() {
-    this.client = dynamo;
+    this.pool = new Pool({
+      connectionString,
+      min: 5,
+      max: 20,
+    });
   }
 
   async getAll(): Promise<User[]> {
-    const params: DocumentClient.QueryInput = {
-      TableName: 'Grubdash',
-      KeyConditionExpression: 'category = :c',
-      ExpressionAttributeValues: {
-        ':c': 'User',
-      },
-      ExpressionAttributeNames: {
-        '#r': 'role',
-      },
-      ProjectionExpression: 'id, username, password, address, phoneNumber, #r',
-    };
+    const client = await this.pool.connect();
 
-    const data = await this.client.query(params).promise();
+    try {
 
-    return data.Items as User[];
+    } catch(error) {
+
+    } finally {
+      client.release();
+    }
   }
 
   async getById(id: string): Promise<User | null> {
