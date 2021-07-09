@@ -1,141 +1,135 @@
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import dynamo from '../dynamo/dynamo';
-import User from '../models/user';
+/* eslint-disable camelcase */
+import { Pool } from 'pg';
+import connectionString from '../database-config';
+import log from '../log';
+import User, { Role } from '../models/user';
+
+export type DBUser = {
+  username: string,
+  password: string,
+  role: Role,
+  address: string,
+  phone_number: string,
+  id: string,
+}
 
 export class UserDAO {
-  private client: DocumentClient;
+  private pool: Pool;
 
   constructor() {
-    this.client = dynamo;
+    this.pool = new Pool({
+      connectionString,
+      min: 5,
+      max: 20,
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private mapToUser(dbuser: DBUser): User {
+    const user: User & { phone_number?: string } = {
+      ...dbuser,
+      phoneNumber: dbuser.phone_number,
+    };
+
+    delete user.phone_number;
+
+    return user as User;
   }
 
   async getAll(): Promise<User[]> {
-    const params: DocumentClient.QueryInput = {
-      TableName: 'Grubdash',
-      KeyConditionExpression: 'category = :c',
-      ExpressionAttributeValues: {
-        ':c': 'User',
-      },
-      ExpressionAttributeNames: {
-        '#r': 'role',
-      },
-      ProjectionExpression: 'id, username, password, address, phoneNumber, #r',
-    };
+    const client = await this.pool.connect();
 
-    const data = await this.client.query(params).promise();
-
-    return data.Items as User[];
+    try {
+      const res = await client.query<DBUser>('SELECT * FROM public.users');
+      return res.rows.map(this.mapToUser);
+    } catch(error) {
+      log.error(error);
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 
   async getById(id: string): Promise<User | null> {
-    const params: DocumentClient.GetItemInput = {
-      TableName: 'Grubdash',
-      Key: {
-        category: 'User',
-        id,
-      },
-      ExpressionAttributeNames: {
-        '#r': 'role',
-      },
-      ProjectionExpression: 'id, username, password, address, phoneNumber, #r',
-    };
+    const client = await this.pool.connect();
 
-    const data = await this.client.get(params).promise();
+    try {
+      const res = await client.query<DBUser>('SELECT * FROM public.users WHERE id = $1', [id]);
 
-    if(!data.Item) {
-      // No User found with this id
-      return null;
+      return (res.rowCount === 0) ? null : res.rows.map(this.mapToUser)[0];
+    } catch(error) {
+      log.error(error);
+      throw error;
+    } finally {
+      client.release();
     }
-
-    return data.Item as User;
   }
 
   async getByUsername(username: string): Promise<User | null> {
-    const params: DocumentClient.QueryInput = {
-      TableName: 'Grubdash',
-      IndexName: 'user-username',
-      KeyConditionExpression: 'category = :c AND username = :u',
-      ExpressionAttributeValues: {
-        ':c': 'User',
-        ':u': username,
-      },
-      ExpressionAttributeNames: {
-        '#r': 'role',
-      },
-      ProjectionExpression: 'id, username, password, address, phoneNumber, #r',
-    };
+    const client = await this.pool.connect();
 
-    const data = await this.client.query(params).promise();
+    try {
+      const res = await client.query<DBUser>('SELECT * FROM public.users WHERE username = $1', [username]);
 
-    if(!data.Items || data.Count === 0) {
-      // No User found with this username
-      return null;
+      return (res.rowCount === 0) ? null : res.rows.map(this.mapToUser)[0];
+    } catch(error) {
+      log.error(error);
+      throw error;
+    } finally {
+      client.release();
     }
-
-    return data.Items[0] as User;
   }
 
   async add(user: User): Promise<boolean> {
-    const params: DocumentClient.PutItemInput = {
-      TableName: 'Grubdash',
-      Item: {
-        ...user,
-        category: 'User',
-      },
-      ConditionExpression: 'id <> :id',
-      ExpressionAttributeValues: {
-        ':id': user.id,
-      },
-    };
-    try {
-      await this.client.put(params).promise();
+    const client = await this.pool.connect();
 
+    try {
+      const data = [user.username, user.password, user.role, user.phoneNumber, user.address];
+      const res = await client.query('INSERT INTO public.users (username, password, role, phone_number, address) VALUES ($1, $2, $3, $4, $5)',
+        data);
+
+      console.log(res);
       return true;
     } catch(error) {
-      console.log('Failed to add User: ', error);
+      log.error(error);
       return false;
+    } finally {
+      client.release();
     }
   }
 
   async update(user: User): Promise<boolean> {
-    const params: DocumentClient.PutItemInput = {
-      TableName: 'Grubdash',
-      Item: {
-        ...user,
-        category: 'User',
-      },
-      ConditionExpression: 'id = :id',
-      ExpressionAttributeValues: {
-        ':id': user.id,
-      },
-    };
+    const client = await this.pool.connect();
 
     try {
-      await this.client.put(params).promise();
+      // eslint-disable-next-line max-len
+      const data = [user.username, user.password, user.role, user.phoneNumber, user.address, user.id];
+      const res = await client.query('UPDATE public.users SET username = $1, password = $2, role = $3, phone_number = $4, address = $5 WHERE id = $6',
+        data);
 
+      console.log(res);
       return true;
     } catch(error) {
-      console.log('Failed to update User: ', error);
+      log.error(error);
       return false;
+    } finally {
+      client.release();
     }
   }
 
   async delete(id: string): Promise<boolean> {
-    const params: DocumentClient.DeleteItemInput = {
-      TableName: 'Grubdash',
-      Key: {
-        category: 'User',
-        id,
-      },
-    };
+    const client = await this.pool.connect();
 
     try {
-      await this.client.delete(params).promise();
+      const res = await client.query('DELETE FROM public.users WHERE id = $1', [id]);
 
+      console.log(res);
       return true;
     } catch(error) {
-      console.log('Failed to delete User: ', error);
+      log.error(error);
       return false;
+    } finally {
+      client.release();
     }
   }
 }

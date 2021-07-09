@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export default class Restaurant {
   constructor(
     public name: string,
@@ -10,7 +8,7 @@ export default class Restaurant {
     public img: string,
     public cuisine: string,
     public type: RestaurantType,
-    public id: string = uuidv4(),
+    public id?: string,
   ) {}
 }
 

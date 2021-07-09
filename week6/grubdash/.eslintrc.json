@@ -24,7 +24,14 @@
         "**/build/*",
         "**/*.d.ts",
         "**/*.html",
-        "**/*.css"
+        "**/*.css",
+        "**/Dockerfile*",
+        "**/*.properties",
+        "grubdash.js",
+        "grubdash.map.js",
+        ".env*",
+        ".dockerignore",
+        ".gitignore"
     ],
     "rules": {
         "no-use-before-define": "off",

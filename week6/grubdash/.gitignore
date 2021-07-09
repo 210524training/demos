@@ -4,3 +4,4 @@ log/
 .env
 grubdash.js
 grubdash.js.map
+node_modules/
