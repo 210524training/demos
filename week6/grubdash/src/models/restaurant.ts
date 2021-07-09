@@ -13,14 +13,16 @@ export default class Restaurant {
 }
 
 export interface Food {
+    id?: string,
     name: string,
-    price: number
+    price: number,
 }
 
 export interface Hours {
-  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
-  open: number;
-  close: number;
+  id?: string,
+  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday',
+  open: number,
+  close: number,
 }
 
 export type RestaurantType = 'Fast Food' | 'Fast Casual' | 'Dine In' | 'Formal';
