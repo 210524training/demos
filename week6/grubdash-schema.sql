@@ -51,10 +51,22 @@ CREATE TABLE IF NOT EXISTS hours (
 	restaurant_id UUID NOT NULL REFERENCES public.restaurants (id)
 );
 
-SELECT *
+SELECT
+		rest.id,
+		rest.name,
+		rest.type,
+		rest.location,
+		rest.cuisine,
+		rest.img,
+		rest.rating,
+		menu.name AS food_name,
+		menu.price,
+		hours.day,
+		hours.open,
+		hours.close
 	FROM public.restaurants AS rest
 	LEFT JOIN public.menu ON rest.id = menu.restaurant_id
-	LEFT JOIN public.hours ON rest.id = hours.restaurant_id
+	LEFT JOIN public.hours ON rest.id = hours.restaurant_id;
 
 
 
