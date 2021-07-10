@@ -288,12 +288,13 @@ export class RestaurantDAO {
   }
 
   async update(restaurant: Restaurant): Promise<boolean> {
+    if(!restaurant.id) return false;
     const client = await this.pool.connect();
      
-  ) {}
+   
     try {
       // eslint-disable-next-line max-len
-      const data = [restaurant.name, restaurant.menu, restaurant.location,restaurant.img,restaurant.cuisine,restaurant.type,restaurant.id,];
+      const data = [restaurant.type, restaurant.rating, restaurant.img,restaurant.cuisine,restaurant.location,restaurant.name,restaurant.id];
       const res = await client.query(`UPDATE public.restaurant 
         SET 
           restaurant.type = $1,
@@ -305,6 +306,31 @@ export class RestaurantDAO {
         WHERE restaurant.id = $7`, data);
       
       const data2 = []
+
+      const res2 = await client.query('DELETE FROM public.menu WHERE restaurant_id = $1', restaurant.id);
+      const res3 = await client.query('DELETE FROM public.hours WHERE restaurant_id = $1', restaurant.id);
+
+      
+
+      const data3 = restaurant.hours.reduce((acc: (string | number)[], hour) => {
+        acc.push(hour.day);
+        acc.push(hour.open);
+        acc.push(hour.close);
+        acc.push(restaurant.id?restaurant.id:'');
+
+        return acc;
+      }, []);
+      const res4 = await client.query(this.produceHoursInsert(restaurant.hours), data3);
+
+      const data4 = restaurant.menu.reduce((acc: (string | number)[], food) => {
+        acc.push(food.name);
+        acc.push(food.price);
+        acc.push(restaurant.id?restaurant.id:'');
+
+        return acc;
+      }, []);
+      const res5 = await client.query(this.produceMenuInsert(restaurant.menu), data4);
+
 
       console.log(res);
       return true;
