@@ -307,8 +307,8 @@ export class RestaurantDAO {
       
       const data2 = []
 
-      const res2 = await client.query('DELETE FROM public.menu WHERE restaurant_id = $1', restaurant.id);
-      const res3 = await client.query('DELETE FROM public.hours WHERE restaurant_id = $1', restaurant.id);
+      const res2 = await client.query('DELETE FROM public.menu WHERE restaurant_id = $1', [restaurant.id]);
+      const res3 = await client.query('DELETE FROM public.hours WHERE restaurant_id = $1', [restaurant.id]);
 
       
 
