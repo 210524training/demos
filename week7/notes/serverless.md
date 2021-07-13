@@ -58,3 +58,15 @@ A few ways to add dependencies:
   - If you combine all of the dependencies into a single JS file, then you can just upload the 1 file
   - Benefits of tree-shaking to minimize the contents of the dependencies that you are leveraging
   - Downsides are that each lambda would have to be bundled independently, so there is no code sharing
+
+Alternatively to dependencies within our code, we can leverage other AWS services from our Lambda Function.
+For example, we might connect to a DynamoDB table or an SQS queue, or something else.
+In order to access these other AWS services, we need to make sure that our Lambda has the proper IAM permissions.
+
+IAM is not only for human beings as developers. Our programs can interact with our AWS account programmatically. Instead, we grant special permissions to AWS services to allow inter-service interaction programmatically, called IAM "roles".
+
+## Serverless Framework/CLI
+
+There is a software tool called the "Serverless Framework". It is a CLI tool, so you get access to commands such as `serverless create`, `serverless deploy`, `sls deploy`, `sls create`, etc. This CLI tool can be used to create and deploy cloud functions to many different cloud platforms. The CLI supports AWS, Azure, GCP, Tencent, etc.
+
+We can install it globally, similarly to `expo` or `create-react-app`: `npm install -g serverless`
