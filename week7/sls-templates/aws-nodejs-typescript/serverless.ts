@@ -8,7 +8,11 @@ const serverlessConfiguration: AWS = {
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
-      includeModules: true,
+      includeModules: {
+        forceExclude: [
+          'aws-sdk',
+        ],
+      },
     },
   },
   plugins: ['serverless-webpack'],
@@ -23,6 +27,13 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
     },
     lambdaHashingVersion: '20201221',
+    ecr: {
+      images: {
+        appName: {
+          path: './path/to/Dockerfile'
+        }
+      }
+    }
   },
   // import the function via paths
   functions: { hello },
