@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "training2105244d8f4107": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

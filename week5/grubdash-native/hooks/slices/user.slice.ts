@@ -3,6 +3,7 @@ import User from "../../models/user";
 import { sendLogin } from "../../remote/grubdash-backend/grubdash.api";
 import { RootState } from "../store";
 import { AxiosError } from 'axios';
+import { Auth } from 'aws-amplify';
 
 export type UserState = User | null;
 
@@ -20,11 +21,19 @@ export const loginAsync = createAsyncThunk<User, LoginCredentials>(
   async ({username, password}, thunkAPI) => {
 
     try {
-      const response = await sendLogin(username, password);
+      const user = await Auth.signIn(username, password)
+        .then((cognitoUser: any) => {
+          console.log(cognitoUser);
 
-      return response;
+          return {
+            username: cognitoUser.username,
+            password: cognitoUser.password
+          } as User
+        });
+
+        return user;
     } catch(error) {
-      console.log(`error is an AxiosError: ${isAxiosError(error)}`);
+      // console.log(`error is an AxiosError: ${isAxiosError(error)}`);
       return thunkAPI.rejectWithValue(error);
     }
   }
