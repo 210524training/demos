@@ -19,7 +19,25 @@ const HomeScreen: React.FC<unknown> = (props) => {
   const user = useAppSelector<UserState>(selectUser);
 
   if(user) {
-    Auth.currentSession().then(session => console.log(session.getIdToken().decodePayload()));
+    // Auth.currentSession().then(session => console.log(session.getIdToken().decodePayload()));
+
+    // We can use this to update user attributes as needed
+    // Auth.updateUserAttributes(user, {
+    //   'custom:role': 'Customer'
+    // });
+    
+    // This method retrieves general user info, including the attributes
+    Auth.currentUserInfo().then(userInfo => {
+      console.log(userInfo);
+
+      // The attributes are a field inside the user info
+      const { attributes } = userInfo;
+
+      // It's just an object, so we can retrieve it from its key
+      // But we need to use this syntax due to the colon character in the key
+      console.log(attributes['custom:role']);
+    });
+
     // user.getSession((err: Error | null, session: CognitoUserSession | null) => {
     //   if(!session) {
     //     console.log(err);
