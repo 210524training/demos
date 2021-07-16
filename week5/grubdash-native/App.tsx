@@ -3,11 +3,15 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
+import Amplify from 'aws-amplify';
+import awsmobile from './src/aws-exports';
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import store from './hooks/store';
+
+Amplify.configure(awsmobile);
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

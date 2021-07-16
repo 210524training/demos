@@ -9,12 +9,29 @@ import { ImageSourcePropType } from 'react-native';
 import { useAppSelector } from '../hooks';
 import { selectUser, UserState } from '../hooks/slices/user.slice';
 import { create, PREDEF_RES } from 'react-native-pixel-perfect';
+import Auth from '@aws-amplify/auth';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
 const dims = Dimensions.get('window');
 
 const HomeScreen: React.FC<unknown> = (props) => {
   const [address, setAddress] = useState('');
   const user = useAppSelector<UserState>(selectUser);
+
+  if(user) {
+    Auth.currentSession().then(session => console.log(session.getIdToken().decodePayload()));
+    // user.getSession((err: Error | null, session: CognitoUserSession | null) => {
+    //   if(!session) {
+    //     console.log(err);
+    //   }
+
+    //   console.log(session);
+    // })
+
+    // Auth.completeNewPassword(user, 'helloworld', {}, {
+    //   'custom:role': 'Customer',
+    // }).then(res => console.log('completeNewPassword Response: ', res));
+  }
   return (
     <ScrollView contentContainerStyle={styles.container}>
 
