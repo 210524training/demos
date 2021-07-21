@@ -5,30 +5,33 @@ import retrieveData from '@functions/retrieve-data';
 
 const serverlessConfiguration: AWS = {
   service: 'training-210524-lambda-template',
+  package: {
+    individually: true,
+  },
   frameworkVersion: '2',
   custom: {
-    webpack: {
-      webpackConfig: './webpack.config.js',
-      includeModules: {
-        forceExclude: [
-          'aws-sdk',
-        ],
-      },
-    },
-    // esbuild: {
-    //   bundle: true,
-    //   minify: true,
-    //   sourcemap: true,
-    //   external: [
-    //     'aws-sdk'
-    //   ],
-    //   watch: {
-    //     pattern: ['src/**/*'],
-    //     ignore: ['.serverless/**/*', '.build', 'node_modules', '.esbuild']
-    //   }
-    // }
+    // webpack: {
+    //   webpackConfig: './webpack.config.js',
+    //   includeModules: {
+    //     forceExclude: [
+    //       'aws-sdk',
+    //     ],
+    //   },
+    // },
+    esbuild: {
+      bundle: true,
+      minify: true,
+      sourcemap: true,
+      external: [
+        'aws-sdk'
+      ],
+      watch: {
+        pattern: ['src/**/*'],
+        ignore: ['.serverless/**/*', '.build', 'node_modules', '.esbuild']
+      }
+    }
   },
-  plugins: ['serverless-webpack', 'serverless-plugin-resource-tagging'],
+  plugins: ['serverless-esbuild', 'serverless-plugin-resource-tagging'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
