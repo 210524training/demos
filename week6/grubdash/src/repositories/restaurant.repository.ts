@@ -12,6 +12,8 @@ export type DBRestaurant = {
   cuisine: string,
   type: RestaurantType,
   id: string,
+  hours_id: string,
+  food_id: string,
   food_name: string,
   price: number,
   day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
@@ -40,8 +42,10 @@ const restaurantQuery = `SELECT
   rest.cuisine,
   rest.img,
   rest.rating,
+  menu.id AS food_id,
   menu.name AS food_name,
   menu.price,
+  hours.id As hours_id,
   hours.day,
   hours.open,
   hours.close
@@ -74,6 +78,7 @@ export class RestaurantDAO {
           const newFood: Food = {
             name: dbrestaurant.food_name,
             price: dbrestaurant.price,
+            id: dbrestaurant.food_id,
           };
 
           const menu: Food[] = [newFood];
@@ -82,6 +87,7 @@ export class RestaurantDAO {
             day: dbrestaurant.day,
             open: dbrestaurant.open,
             close: dbrestaurant.close,
+            id: dbrestaurant.hours_id,
           };
 
           const hours: Hours[] = [newHour];
@@ -123,6 +129,7 @@ export class RestaurantDAO {
           const newFood = {
             name: dbrestaurant.food_name,
             price: dbrestaurant.price,
+            id: dbrestaurant.food_id,
           };
 
           rest.menu.push(newFood);
@@ -132,6 +139,7 @@ export class RestaurantDAO {
             day: dbrestaurant.day,
             open: dbrestaurant.open,
             close: dbrestaurant.close,
+            id: dbrestaurant.hours_id,
           };
 
           rest.hours.push(newHour);
@@ -255,12 +263,98 @@ export class RestaurantDAO {
     }
   }
 
-  async update(restaurant: Restaurant): Promise<boolean> {
+  produceMenuUpdate(menu: Food[]): string {
+    let query = 'UPDATE public.menu as m SET name = m2.name, price = m2.price, restaurant_id = m2.restaurant_id FROM(VALUES ';
 
+    menu.forEach((food, index) => {
+      query += `(${index * 4 + 1}, ${index * 4 + 2}, $${index * 4 + 3}, $${index * 4 + 4})`;
+
+      if(index < menu.length) {
+        query += ', ';
+      }
+    });
+
+    query  += ') as m2(name, price, restaurant_id, id) where m2.id = m.id'
+    return query;
+  }
+
+  produceHoursUpdate(hours: Hours[]): string {
+    let query = 'UPDATE public.hours as h SET day = h2.day, open = h2.open, close = h2.close, restaurant_id = h2.restaurant_id FROM (VALUES ';
+
+    hours.forEach((hour, index) => {
+      query += `($${index * 5 + 1}, $${index * 5 + 2}, $${index * 5 + 3}, $${index * 5 + 4}, $${index * 5 + 5})`;
+
+      if(index < hours.length) {
+        query += ', ';
+      }
+    });
+
+    query  += ') as h2(day, open, close, restaurant_id, id) where h2.id = h.id'
+    return query;
+  }
+
+  async update(restaurant: Restaurant): Promise<boolean> {
+    const client = await this.pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      const data = [restaurant.type, restaurant.rating, restaurant.cuisine, restaurant.img, restaurant.location, restaurant.name, restaurant.id];
+      const res = await client.query<{ id: string }>('Update public.restaurants Set type = $1, rating = $2, cuisine = $3, img = $4 location = $5, name = $6 WHERE id = $7',
+        data);
+
+      const restaurantId = res.rows[0].id;
+
+      const data2 = restaurant.menu.reduce((acc: (string | number)[], food) => {
+        acc.push(food.name);
+        acc.push(food.price);
+        acc.push(restaurantId);
+        acc.push(food.id);
+
+        return acc;
+      }, []);
+      const res2 = await client.query(this.produceMenuUpdate(restaurant.menu), data2);
+
+      console.log(res2);
+
+      const data3 = restaurant.hours.reduce((acc: (string | number)[], hour) => {
+        acc.push(hour.day);
+        acc.push(hour.open);
+        acc.push(hour.close);
+        acc.push(restaurantId);
+        acc.push(hour.id);
+
+        return acc;
+      }, []);
+      const res3 = await client.query(this.produceHoursUpdate(restaurant.hours), data3);
+
+      console.log(res3);
+
+      await client.query('COMMIT');
+      return true;
+    } catch(error) {
+      log.error(error);
+      await client.query('ROLLBACK');
+      return false;
+    } finally {
+      client.release();
+    }
   }
 
   async delete(id: string): Promise<boolean> {
+    const client = await this.pool.connect();
 
+    try {
+      const res = await client.query('DELETE FROM public.restaurants WHERE id = $1', [id]);
+
+      console.log(res);
+      return true;
+    } catch(error) {
+      log.error(error);
+      return false;
+    } finally {
+      client.release();
+    }
   }
 }
 

@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS menu (
 	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 	name VARCHAR NOT NULL,
 	price NUMERIC(14, 2) NOT NULL,
-	restaurant_id UUID NOT NULL REFERENCES public.restaurants (id)
+	restaurant_id UUID NOT NULL REFERENCES public.restaurants (id) ON DELETE CASCADE;
 );
 
 DROP TYPE IF EXISTS Day;
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS hours (
 	day Day NOT NULL,
 	open INTEGER NOT NULL,
 	close INTEGER NOT NULL,
-	restaurant_id UUID NOT NULL REFERENCES public.restaurants (id)
+	restaurant_id UUID NOT NULL REFERENCES public.restaurants (id) ON DELETE CASCADE;
 );
 
 SELECT
